@@ -12,40 +12,40 @@ const signToken = id => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  res.status(statusCode).json({
-    status: 'success',
-    data: {
-      user,
-      token
-    }
-  });
-};
-
 // const createSendToken = (user, statusCode, res) => {
 //   const token = signToken(user._id);
-//   const cookieOptions = {
-//     expires: new Date(
-//       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-//     ),
-//     httpOnly: true
-//   };
-//   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-//   res.cookie('jwt', token, cookieOptions);
-
-//   // Remove password from output
-//   user.password = undefined;
-
 //   res.status(statusCode).json({
 //     status: 'success',
-//     token,
+//     token
 //     data: {
-//       user
+//       user,
 //     }
 //   });
 // };
+
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user
+    }
+  });
+};
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -96,7 +96,12 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
+    // console.log('ggg');
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+    // console.log('fff');
+    // console.log('token', token);
   }
 
   if (!token) {
