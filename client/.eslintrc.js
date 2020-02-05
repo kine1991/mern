@@ -29,6 +29,7 @@ module.exports = {
         "react/prop-types": "off",
         "dot-notation": "off",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "react/jsx-props-no-spreading": "off"
     }
 };

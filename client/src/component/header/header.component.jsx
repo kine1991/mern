@@ -25,6 +25,9 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
             <Nav.Link as={Link} to="/">
               Main
             </Nav.Link>
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
             <Nav.Link as={Link} to="/cart">
               Cart
             </Nav.Link>
@@ -36,8 +39,8 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
                   title={currentUser.name}
                   id="basic-nav-dropdown"
                 >
-                  <NavDropdown.Item as={Link} to="/settings/profile">
-                    Profile
+                  <NavDropdown.Item as={Link} to="/about">
+                    About
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/settings/">
                     Settings
