@@ -19,7 +19,8 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks"
     ],
     "rules": {
         "import/prefer-default-export": "off",
@@ -27,5 +28,7 @@ module.exports = {
         "react/jsx-fragments": "off",
         "react/prop-types": "off",
         "dot-notation": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 };

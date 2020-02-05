@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
@@ -5,28 +6,40 @@ import LoginComponent from './component/login/login.component';
 import RegisterComponent from './component/register/register.component';
 import Header from './component/header/header.component';
 // import Button from 'react-bootstrap/Button'
-// import axios from 'axios';
+import CustomLayout from './helper/component/custom-layout/custom-layout.component';
+import Spinner from './helper/component/spinner/spinner.component';
 import { setCurrentUserAsync } from './redux/user/user.action';
 
 // eslint-disable-next-line no-shadow
-const App = ({ setCurrentUser }) => {
+const App = ({ isFetching, setCurrentUser }) => {
   React.useEffect(() => {
-    setCurrentUser();
+    if (localStorage.getItem('token')) {
+      setCurrentUser();
+    }
   }, []);
+  if (isFetching) {
+    return <Spinner color="gray" />;
+  }
   return (
     <React.Fragment>
       <Header />
       <Switch>
-        <Route path="/" exact component={() => <h1>Home</h1>} />
-        <Route path="/login" component={LoginComponent} />
-        <Route path="/register" component={RegisterComponent} />
+        <CustomLayout>
+          <Route path="/" exact component={() => <h1>Home</h1>} />
+          <Route path="/login" component={LoginComponent} />
+          <Route path="/register" component={RegisterComponent} />
+        </CustomLayout>
       </Switch>
     </React.Fragment>
   );
 };
 
+const mapStateToProps = state => ({
+  isFetching: state.user.isFetching
+});
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: () => dispatch(setCurrentUserAsync())
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

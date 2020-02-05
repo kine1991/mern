@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import Image from 'react-bootstrap/Image';
 import { Styles } from './header.styles';
+import { logout } from '../../redux/user/user.action';
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ currentUser, logoutUser }) => {
   return (
     <Styles>
       <Navbar className="navbar" bg="light" expand="sm">
@@ -26,19 +28,28 @@ const HeaderComponent = () => {
             <Nav.Link as={Link} to="/cart">
               Cart
             </Nav.Link>
-            {false ? (
+            {currentUser ? (
               // <Nav.Link onClick={logout}>Logout</Nav.Link>
               <>
                 <NavDropdown
                   className="ml-3"
-                  title="{currentUser.fullName}"
+                  title={currentUser.name}
                   id="basic-nav-dropdown"
                 >
-                  <NavDropdown.Item as={Link} to="/settings/profile">Profile</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/settings/">Settings</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/settings/zzz">ZZZ</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/settings/profile">
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/settings/">
+                    Settings
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/settings/zzz">
+                    ZZZ
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item className="text-danger">
+                  <NavDropdown.Item
+                    onClick={logoutUser}
+                    className="text-danger"
+                  >
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -63,4 +74,12 @@ const HeaderComponent = () => {
   );
 };
 
-export default HeaderComponent;
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  logoutUser: () => dispatch(logout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);

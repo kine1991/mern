@@ -1,25 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { registerAsync, clearError } from '../../redux/user/user.action';
 
-const RegisterComponent = () => {
+const RegisterComponent = ({
+  error,
+  registerUser,
+  clearErrorBeforeUnmount
+}) => {
+  React.useEffect(() => {
+    return () => {
+      clearErrorBeforeUnmount();
+    };
+  }, [clearErrorBeforeUnmount]);
+
   const { register, handleSubmit } = useForm();
+
   const onSubmit = data => {
+    console.log('data');
     console.log(data);
+    registerUser(data);
   };
-  const test = () => {
-    fetch('http://localhost:5000/api/v1/books', {
-      method: 'GET',
-      credentials: 'include'
-    }).then(res => {
-      console.log('rewiev', res);
-    });
-    // axios.get('http://localhost:5000/api/v1/books')
-  };
+
   return (
     <div>
-      RegisterComponent
+      <h1>Register</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {error ? <h5 className="text-danger">{error}</h5> : null}
         <input name="name" defaultValue="Nikolay" ref={register} />
         <input name="email" defaultValue="test11@mail.ru" ref={register} />
         <input
@@ -33,10 +40,18 @@ const RegisterComponent = () => {
           ref={register({ required: true })}
         />
         <input type="submit" />
-        <button onClick={test}>Test</button>
       </form>
     </div>
   );
 };
 
-export default RegisterComponent;
+const mapStateToProps = state => ({
+  error: state.user.error
+});
+
+const mapDispatchToProps = dispatch => ({
+  registerUser: data => dispatch(registerAsync(data)),
+  clearErrorBeforeUnmount: () => dispatch(clearError())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
