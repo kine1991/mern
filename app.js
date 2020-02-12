@@ -1,6 +1,7 @@
 /* eslint-disable no-console */ //отключить для всего файла консоль
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -78,21 +79,16 @@ app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 // Любая ошибка типа next(err...) будет обрабатываться здесь
 app.use(globalErrorHandler);
-// app.use((err, req, res, next) => {
-//   err.statusCode = err.statusCode || 500;
-//   err.status = err.status || 'error';
-
-//   res.status(err.statusCode).json({
-//     status: err.status,
-//     message: err.message
-//   });
-// });
 
 module.exports = app;
-
-// const x = 2;
-// // eslint-disable-next-line
-// console.log(x);
-// console.log('222'); //eslint-disable-line
+// "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
