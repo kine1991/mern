@@ -25,8 +25,8 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
             <Nav.Link as={Link} to="/">
               Main
             </Nav.Link>
-            <Nav.Link as={Link} to="/about">
-              About
+            <Nav.Link as={Link} to="/books">
+              Books
             </Nav.Link>
             <Nav.Link as={Link} to="/cart">
               Cart

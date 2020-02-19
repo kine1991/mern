@@ -12,6 +12,8 @@ import CustomLayout from './helper/component/custom-layout/custom-layout.compone
 import Spinner from './helper/component/spinner/spinner.component';
 import { setCurrentUserAsync } from './redux/user/user.action';
 import withAuthorization from './helper/hoc/withAuthorization';
+import BooksComponent from './component/book/books/books.component';
+import BookComponent from './component/book/book/book.component';
 
 // eslint-disable-next-line no-shadow
 const App = ({ isFetching, setCurrentUser }) => {
@@ -30,6 +32,8 @@ const App = ({ isFetching, setCurrentUser }) => {
         <CustomLayout>
           <Route path="/" exact component={() => <h1>Home</h1>} />
           <Route path="/about" exact component={withAuthorization(About)} />
+          <Route path="/books" exact component={BooksComponent} />
+          <Route path="/books/:id" exact component={BookComponent} />
           <Route path="/login" component={LoginComponent} />
           <Route path="/register" component={RegisterComponent} />
         </CustomLayout>
