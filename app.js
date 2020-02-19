@@ -71,6 +71,24 @@ app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/users', userRouter);
 
+if (process.env.NODE_ENV === 'production') {
+  console.log('***prod***');
+  app.use(express.static('client2/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client2', 'build', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'client2', 'build', 'index.html'));
+  });
+}
+if (process.env.NODE_ENV === 'development') {
+  console.log('***dev***');
+  app.use(express.static('client2/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client2', 'build', 'index.html'));
+  });
+}
+
 app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`);
   // err.status = 'fail';
@@ -78,15 +96,6 @@ app.all('*', (req, res, next) => {
   // next(err);
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    // res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 // Любая ошибка типа next(err...) будет обрабатываться здесь
 app.use(globalErrorHandler);

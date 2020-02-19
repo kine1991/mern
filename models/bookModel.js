@@ -66,6 +66,9 @@ const bookSchema = new Schema(
     imgageUrl: {
       type: String
     },
+    imgageThumbnailUrl: {
+      type: String
+    },
     imgages: {
       type: [String]
     },
@@ -136,7 +139,7 @@ bookSchema.pre('aggregate', function(next) {
   next();
 });
 
-bookSchema.index({ title: 1, author: 1 }, { unique: true });
+bookSchema.index({ name: 1, author: 1 }, { unique: true });
 
 const Book = mongoose.model('Book', bookSchema);
 

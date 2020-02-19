@@ -12,7 +12,7 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
-  console.log(users);
+  // console.log(users);
   res.status(500).json({
     status: 'success',
     results: users.length,
@@ -24,7 +24,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 exports.getMe = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  console.log(user);
+  // console.log(user);
   res.status(200).json({
     status: 'success',
     data: {
