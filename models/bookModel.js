@@ -63,13 +63,13 @@ const bookSchema = new Schema(
       type: Number,
       default: 0
     },
-    imgageUrl: {
+    imageUrl: {
       type: String
     },
-    imgageThumbnailUrl: {
+    imageThumbnailUrl: {
       type: String
     },
-    imgages: {
+    images: {
       type: [String]
     },
     buyUrl: {

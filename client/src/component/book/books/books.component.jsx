@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { url } from '../../../config/environment';
 import SingleBookCard from '../single-book-card/single-book-card.component';
+import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
 
 const BooksComponentContainer = styled.div``;
 
@@ -57,7 +58,8 @@ const BooksComponent = () => {
       <Title>Books</Title>
       <ItemsContainer>
         {books.map(book => (
-          <SingleBookCard key={book.id} book={book} />
+          <SingleBookCard2 key={book.id} book={book} />
+          // <SingleBookCard key={book.id} book={book} />
         ))}
       </ItemsContainer>
     </BooksComponentContainer>
