@@ -17,7 +17,7 @@ const Title = styled.h1`
 const ItemsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 3rem;
+  grid-gap: 1rem;
 
   @media (max-width: 1200px) {
     /* grid-gap: 2rem; */

@@ -3,11 +3,13 @@ import styled from 'styled-components';
 export const Styles = styled.div`
   .card {
     height: 22rem;
-    /* border: 1px solid black; */
-    border-radius: 5px;
+    border-radius: 9px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    background-image: linear-gradient(to right bottom, #bdc3c7, whitesmoke);
+    /* background-image: linear-gradient(to right bottom, #bdc3c7, whitesmoke); */
+    /* background-color: #5ca0f2;
+background-image: linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%); */
     font-family: 'Roboto', sans-serif;
 
     &__picture {
@@ -30,8 +32,17 @@ export const Styles = styled.div`
       display: flex;
       padding: .4rem;
 
+      background: black;
+      /* background: ${props =>
+        `url(${props.imageUrl}) no-repeat top center`}; */
+      background-size: cover;
+      background-blend-mode: screen;
+      -webkit-clip-path: polygon(0 55%, 100% 0, 100% 100%, 0% 100%);
+      clip-path: polygon(0 55%, 100% 0, 100% 100%, 0% 100%);
+      
+
       &-left {
-        flex: 1;
+        flex: 5;
         font-size: 12px;
         letter-spacing: 1px;
         font-weight: 300;
@@ -79,5 +90,16 @@ export const Styles = styled.div`
     color: black;
     font-size: ${props =>
       props.sizeOfDescription < 60 ? '1.4rem' : props.sizeOfDescription < 80 ? '1.2rem' : props.sizeOfDescription < 120 ? '1rem' : '0.8rem'}
+    }
+    .price-discount{
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 100;
+    }
+    .price {
+      text-align: center;
+      text-decoration: line-through;
+      font-size: .6rem;
+      font-weight: 300;
     }
 `;
