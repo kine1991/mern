@@ -1,11 +1,25 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Styles } from './single-book-card2.styles';
-import Button from '../../button/button.component';
+// import Button from '../../button/button.component';
 
 const SingleBookCard2 = ({ book }) => {
+  let history = useHistory();
+
+  const handleHeart = e => {
+    e.stopPropagation();
+    console.log('heart');
+  };
+  const handleComment = e => {
+    e.stopPropagation();
+    console.log('comment');
+  };
+  const handleOpen = () => {
+    history.push(`/books/${book.id}`);
+  };
+
   console.log(book);
   return (
     <Styles
@@ -13,7 +27,7 @@ const SingleBookCard2 = ({ book }) => {
       sizeOfName={book.name.length}
       sizeOfDesc6iion={book.description.length}
     >
-      <div className="card" onClick={() => console.log('cart')}>
+      <div className="card" onClick={handleOpen}>
         <div className="card__picture">
           <div className="cart-icon">
             <i className="fa fa-heart" /> <span>2</span>
@@ -37,10 +51,10 @@ const SingleBookCard2 = ({ book }) => {
             <span className="publisher">{book.publisher.name}</span>
           </div>
           <div className="card__footer-right">
-            <div className="comment-icon">
+            <div className="comment-icon" onClick={handleComment}>
               <i className="fa fa-comment" /> <span>12</span>
             </div>
-            <div className="heart-icon" onClick={() => console.log('heart')}>
+            <div className="heart-icon" onClick={handleHeart}>
               <i className="fa fa-heart" /> <span>12</span>
             </div>
             {/* <i className="fa fa-shopping-cart" /> */}

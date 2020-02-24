@@ -8,8 +8,8 @@ export const Styles = styled.div`
     display: flex;
     flex-direction: column;
     font-family: 'Roboto', sans-serif;
-    /* background-image: linear-gradient(to right bottom, #bdc3c7, whitesmoke); */
-    /* background-color: #5ca0f2; background-image: linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%); */
+    cursor: pointer;
+
     &__picture {
       flex: 4;
       /* background: url('https://i.insider.com/5d0bd4b7e3ecba5d97628a02?width=1136&format=jpeg'); */
