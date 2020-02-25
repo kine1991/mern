@@ -6,7 +6,7 @@ import { Styles } from './single-book-card2.styles';
 // import Button from '../../button/button.component';
 
 const SingleBookCard2 = ({ book }) => {
-  let history = useHistory();
+  const history = useHistory();
 
   const handleHeart = e => {
     e.stopPropagation();

@@ -157,8 +157,6 @@ export const Styles = styled.div`
     filter: brightness(90%);
     /* -webkit-filter: grayscale(20%);
     -moz-filter: grayscale(20%); */
-
-
   transition: all 0.3s ease;
   }
 
