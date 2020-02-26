@@ -1,85 +1,55 @@
 import React from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { url } from '../../../config/environment';
 import SingleBookCard from '../single-book-card/single-book-card.component';
 import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
-
-const BooksComponentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const BooksComponentLeft = styled.div`
-  flex-basis: 200px;
-  background: #dcdcdc;
-  margin-right: 2rem;
-`;
-
-const BooksComponentRight = styled.div`
-  flex: 1;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-
-const Button = styled.div`
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background: #dcdcdc;
-`;
-
-const ItemsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 1rem;
-
-  @media (max-width: 1200px) {
-    /* grid-gap: 2rem; */
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
-  }
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 1rem;
-  }
-  @media (max-width: 576px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 0rem;
-  }
-`;
+import {
+  BooksComponentContainer,
+  BooksComponentLeft,
+  BooksComponentRight,
+  Title,
+  Pagination,
+  Button,
+  ItemsContainer
+} from './books.styles';
 
 const BooksComponent = () => {
   const history = useHistory();
   const location = useLocation();
   const [books, setBooks] = React.useState([]);
-  console.log('location');
-  console.log(location);
+  const [countAllBooks, setCountAllBooks] = React.useState(undefined);
+  const [isPreviousButton, setIsPreviousButton] = React.useState(false);
+  const [isNextButton, setIsNextButton] = React.useState(false);
+  const [limit, setLimit] = React.useState(20);
+  // const [paginationData, setPaginationData] = React.useState({
+  //   countAllBooks: 0,
+  //   page: 1,
+  //   minPage: 1,
+  //   maxPage: 1,
+  //   limit: 20,
+  //   isPreviousButton: false,
+  //   isNextButton: false
+  // });
 
-  const search = location.search; // could be '?foo=bar'
-  const params = new URLSearchParams(search);
-  const page = params.get('page'); // bar
-  console.log(page);
   async function fetchData() {
     try {
-      const dataFroDB = await axios.get(`${url}/api/v1/books?limit=20&page=2`);
-      // console.log(dataFroDB.data.data.books);
-      setBooks(dataFroDB.data.data.books);
+      const count = await axios.get(`${url}/api/v1/books/count`);
+      setCountAllBooks(count.data.countBooks);
+
+      const query = new URLSearchParams(history.location.search);
+      const queryPage = query.get('page');
+      if (queryPage) {
+        const dataFroDB = await axios.get(
+          `${url}/api/v1/books?limit=20&page=${queryPage}`
+        );
+        setBooks(dataFroDB.data.data.books);
+      } else {
+        const dataFroDB = await axios.get(`${url}/api/v1/books?limit=20`);
+        setBooks(dataFroDB.data.data.books);
+      }
+      // console.log('queryPage', queryPage);
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +58,37 @@ const BooksComponent = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
+
+  // React.useEffect(() => {
+  //   console.log('&&', paginationData);
+  // }, [setPaginationData]);
+
+  React.useEffect(() => {
+    fetchData();
+    const query = new URLSearchParams(history.location.search);
+    const currentPage = +query.get('page');
+    const maxPage = Math.ceil(countAllBooks / limit);
+    setIsPreviousButton(currentPage > 1);
+    setIsNextButton(maxPage > currentPage);
+  }, [history.location.search, countAllBooks]);
+
+  const handlePreviousBtn = () => {
+    const query = new URLSearchParams(history.location.search);
+    const currentPage = +query.get('page');
+    if (Number.isInteger(currentPage) && currentPage > 1) {
+      query.set('page', currentPage - 1);
+      history.replace({ ...history.location, search: query.toString() });
+    }
+  };
+
+  const handleNextBtn = () => {
+    const query = new URLSearchParams(history.location.search);
+    const currentPage = +query.get('page');
+    if (Number.isInteger(currentPage)) {
+      query.set('page', currentPage + 1);
+      history.replace({ ...history.location, search: query.toString() });
+    }
+  };
 
   return (
     <React.Fragment>
@@ -101,10 +102,16 @@ const BooksComponent = () => {
               // <SingleBookCard key={book.id} book={book} />
             ))}
           </ItemsContainer>
-          <Pagination>
-            <Button>previous</Button>
-            <Button>next</Button>
-          </Pagination>
+          {books.length ? (
+            <Pagination>
+              {isPreviousButton ? (
+                <Button onClick={handlePreviousBtn}>previous</Button>
+              ) : null}
+              {isNextButton ? (
+                <Button onClick={handleNextBtn}>next</Button>
+              ) : null}
+            </Pagination>
+          ) : null}
         </BooksComponentRight>
       </BooksComponentContainer>
     </React.Fragment>

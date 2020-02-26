@@ -28,6 +28,14 @@ exports.getAllBooks = catchAsync(async (req, res) => {
   });
 });
 
+exports.getCountBooks = catchAsync(async (req, res, next) => {
+  const countBooks = await Book.count({});
+  res.status(200).json({
+    status: 'success',
+    countBooks
+  });
+});
+
 exports.getBook = catchAsync(async (req, res, next) => {
   const book = await Book.findById(req.params.id).populate('reviews');
 

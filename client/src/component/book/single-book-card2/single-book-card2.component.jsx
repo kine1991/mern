@@ -20,7 +20,7 @@ const SingleBookCard2 = ({ book }) => {
     history.push(`/books/${book.id}`);
   };
 
-  console.log(book);
+  // console.log(book);
   return (
     <Styles
       imageUrl={book.imageUrl}

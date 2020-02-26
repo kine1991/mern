@@ -21,6 +21,8 @@ router
   .get(bookController.getAllBooks)
   .post(authController.protect, bookController.createBook);
 
+router.route('/count').get(bookController.getCountBooks);
+
 router
   .route('/:id')
   .get(bookController.getBook)
