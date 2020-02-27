@@ -121,6 +121,7 @@ bookSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'publisher',
     select: '-__v -passwordChangedAt'
+    // select: '+password +photo'
   });
   next();
 });

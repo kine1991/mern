@@ -31,7 +31,7 @@ export const Styles = styled.div`
       align-items: flex-end;
       padding: 1rem;
 
-      background: #dcdcdc;
+      background: #f7f7f7;
       background-size: cover;
       background-blend-mode: screen;
       -webkit-clip-path: polygon(0 30%, 100% 0, 100% 100%, 0% 100%);
@@ -134,7 +134,7 @@ export const Styles = styled.div`
     /* margin-left: 1rem;
     color: #808080; */
     :hover {
-      color: #B28451;
+      color: #b28451;
       transition: all 0.3s ease;
     }
   }
@@ -157,7 +157,7 @@ export const Styles = styled.div`
     filter: brightness(90%);
     /* -webkit-filter: grayscale(20%);
     -moz-filter: grayscale(20%); */
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .card:hover .cart-icon {

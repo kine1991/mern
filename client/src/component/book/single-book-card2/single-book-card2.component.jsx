@@ -10,11 +10,9 @@ const SingleBookCard2 = ({ book }) => {
 
   const handleHeart = e => {
     e.stopPropagation();
-    console.log('heart');
   };
   const handleComment = e => {
     e.stopPropagation();
-    console.log('comment');
   };
   const handleOpen = () => {
     history.push(`/books/${book.id}`);
