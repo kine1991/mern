@@ -122,7 +122,7 @@ export const Styles = styled.div`
     margin-left: 1rem;
     color: #808080;
     :hover {
-      color: #B28451;
+      color: #b28451;
       transition: all 0.3s ease;
     }
   }
