@@ -28,6 +28,28 @@ exports.getAllBooks = catchAsync(async (req, res) => {
   });
 });
 
+exports.getFilterDistinctValues = catchAsync(async (req, res, next) => {
+  const genre = await Book.distinct('genre');
+  const author = await Book.distinct('author');
+  const minPages = await Book.find({})
+    .sort({ pages: 1 })
+    .limit(1);
+  const maxPages = await Book.find({})
+    .sort({ pages: -1 })
+    .limit(1);
+  // const distinct = await Book.aggregate([
+  //   { $group: { _id: { genre: '$genre', code: '$author' } } }
+  // ]);
+  res.status(200).json({
+    status: 'success',
+    filter: {
+      genre,
+      author,
+      pages: [minPages[0].pages, maxPages[0].pages]
+    }
+  });
+});
+
 exports.getCountBooks = catchAsync(async (req, res, next) => {
   const countBooks = await Book.count({});
   res.status(200).json({

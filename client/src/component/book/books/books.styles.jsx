@@ -6,7 +6,8 @@ export const BooksComponentContainer = styled.div`
 `;
 export const BooksComponentLeft = styled.div`
   flex-basis: 200px;
-  background: #dcdcdc;
+  background: #f7f7f7;
+  /* background: #dcdcdc; */
   margin-right: 2rem;
 `;
 

@@ -21,6 +21,7 @@ router
   .get(bookController.getAllBooks)
   .post(authController.protect, bookController.createBook);
 
+router.route('/filter').get(bookController.getFilterDistinctValues);
 router.route('/count').get(bookController.getCountBooks);
 
 router

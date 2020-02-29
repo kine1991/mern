@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { url } from '../../../config/environment';
+import Filter from '../filter/filter.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
 import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
 import {
@@ -94,7 +95,9 @@ const BooksComponent = () => {
     <React.Fragment>
       <Title>Books</Title>
       <BooksComponentContainer>
-        <BooksComponentLeft>filter</BooksComponentLeft>
+        <BooksComponentLeft>
+          <Filter />
+        </BooksComponentLeft>
         <BooksComponentRight>
           <ItemsContainer>
             {books.map(book => (
