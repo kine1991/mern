@@ -30,6 +30,9 @@ const Filter = () => {
     }
   }
 
+  const clearFilter = () => {
+    history.push('books');
+  };
   const applyFilter = () => {
     const filterString = queryString.stringify(arrayOfFilter, {
       arrayFormat: 'comma'
@@ -40,20 +43,30 @@ const Filter = () => {
     });
   };
 
+  // hook on change search (query params)
   React.useEffect(() => {
-    console.log(arrayOfFilter);
+    // console.log('arrayOfFilter', arrayOfFilter);
+  }, [history.location.search]);
+
+  React.useEffect(() => {
+    console.log('arrayOfFilter2', arrayOfFilter);
   }, [arrayOfFilter]);
 
   React.useEffect(() => {
+    // get data from db
     fetchData();
+
+    // Turn query params into object (arrayOfFilter)
     const filterString = history.location.search.slice(1);
-    // console.log(filterString);
-    const filterParsed = queryString.parse(filterString, {
-      arrayFormat: 'comma'
+    const filterParsed = queryString.parse(filterString);
+    const newFilterParsed = {};
+    Object.keys(filterParsed).forEach(field => {
+      newFilterParsed[field] = filterParsed[field].split(',');
     });
-    setArrayOfFilter(filterParsed);
-    console.log(filterParsed);
+    setArrayOfFilter({ ...arrayOfFilter, ...newFilterParsed });
   }, []);
+
+  // Renreding
   if (!filter) {
     return <h1>Loading...</h1>;
   }
@@ -87,6 +100,9 @@ const Filter = () => {
       <button type="button" onClick={applyFilter}>
         Apply
       </button>
+      <button type="button" onClick={clearFilter}>
+        Clear
+      </button>
     </FilterContainer>
   );
 };
@@ -100,3 +116,18 @@ export default Filter;
 // console.log(filterString);
 // const parsed = queryString.parse(stringifyed, { arrayFormat: 'comma' });
 // console.log(parsed);
+// if (filterParsed.genre === undefined && filterParsed.genre === undefined) {
+//   setArrayOfFilter({ genre: [], author: [] });
+// } else if () {
+// } else if () {
+// }
+// const filterParsed = queryString.parse(filterString, {
+//   arrayFormat: 'comma'
+// });
+// console.log('!!', newFilterParsed);
+// {author: Array(2), genre: "Detective"}
+// {author: "Vasily Grossman,The Enchanter", genre: "Detective"}
+// console.log('filterString', filterString);
+// console.log('filterParsed', filterParsed);
+// console.log('!!!', queryString.parse('author=Vasily%20Grossman,The%20Enchanter&genre=Detective', {arrayFormat: 'comma'}));
+// console.log('!!!2', queryString.parse('author=Vasily%20Grossman,The%20Enchanter&genre=Detective'));

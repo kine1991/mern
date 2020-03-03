@@ -34,7 +34,6 @@ export const CustomCheckbox = ({
       <div className="form-check">
         <input
           onChange={e => handleCheck(e, value)}
-          // onChange={(e) => console.log(e.target.checked)}
           checked={checked}
           className="form-check-input"
           type="checkbox"
@@ -50,8 +49,3 @@ export const CustomCheckbox = ({
 };
 
 export default CustomCheckbox;
-// setArrayOfGenre(
-//   arrayOfGenre.filter(cur => {
-//     return cur !== value;
-//   })
-// );
