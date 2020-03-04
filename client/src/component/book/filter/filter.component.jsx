@@ -24,7 +24,7 @@ const Filter = () => {
     try {
       const data = await axios.get(`${url}/api/v1/books/filter`);
       setFilter(data.data.filter);
-      console.log('filter', data.data.filter);
+      // console.log('filter', data.data.filter);
     } catch (error) {
       console.log(error);
     }
@@ -34,9 +34,7 @@ const Filter = () => {
     history.push('books');
   };
   const applyFilter = () => {
-    const filterString = queryString.stringify(arrayOfFilter, {
-      arrayFormat: 'comma'
-    });
+    const filterString = queryString.stringify(arrayOfFilter);
     history.push({
       pathname: '/books',
       search: `?${filterString}`
@@ -49,7 +47,7 @@ const Filter = () => {
   }, [history.location.search]);
 
   React.useEffect(() => {
-    console.log('arrayOfFilter2', arrayOfFilter);
+    // console.log('arrayOfFilter2', arrayOfFilter);
   }, [arrayOfFilter]);
 
   React.useEffect(() => {
@@ -59,11 +57,8 @@ const Filter = () => {
     // Turn query params into object (arrayOfFilter)
     const filterString = history.location.search.slice(1);
     const filterParsed = queryString.parse(filterString);
-    const newFilterParsed = {};
-    Object.keys(filterParsed).forEach(field => {
-      newFilterParsed[field] = filterParsed[field].split(',');
-    });
-    setArrayOfFilter({ ...arrayOfFilter, ...newFilterParsed });
+
+    setArrayOfFilter({ ...arrayOfFilter, ...filterParsed });
   }, []);
 
   // Renreding
@@ -108,26 +103,3 @@ const Filter = () => {
 };
 
 export default Filter;
-// <div className="form-check">
-//   <input className="form-check-input" type="checkbox" value={value} id={value} />
-//   <label className="form-check-label" htmlFor={value}>{value}</label>
-// </div>
-// console.log(arrayOfFilter);
-// console.log(filterString);
-// const parsed = queryString.parse(stringifyed, { arrayFormat: 'comma' });
-// console.log(parsed);
-// if (filterParsed.genre === undefined && filterParsed.genre === undefined) {
-//   setArrayOfFilter({ genre: [], author: [] });
-// } else if () {
-// } else if () {
-// }
-// const filterParsed = queryString.parse(filterString, {
-//   arrayFormat: 'comma'
-// });
-// console.log('!!', newFilterParsed);
-// {author: Array(2), genre: "Detective"}
-// {author: "Vasily Grossman,The Enchanter", genre: "Detective"}
-// console.log('filterString', filterString);
-// console.log('filterParsed', filterParsed);
-// console.log('!!!', queryString.parse('author=Vasily%20Grossman,The%20Enchanter&genre=Detective', {arrayFormat: 'comma'}));
-// console.log('!!!2', queryString.parse('author=Vasily%20Grossman,The%20Enchanter&genre=Detective'));

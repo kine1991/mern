@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { url } from '../../../config/environment';
 import Filter from '../filter/filter.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
-import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
+// import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
 import {
   BooksComponentContainer,
   BooksComponentLeft,
@@ -60,18 +61,25 @@ const BooksComponent = () => {
     fetchData();
   }, []);
 
-  // React.useEffect(() => {
-  //   console.log('&&', paginationData);
-  // }, [setPaginationData]);
-
   React.useEffect(() => {
-    fetchData();
-    const query = new URLSearchParams(history.location.search);
-    const currentPage = +query.get('page');
-    const maxPage = Math.ceil(countAllBooks / limit);
-    setIsPreviousButton(currentPage > 1);
-    setIsNextButton(maxPage > currentPage);
-  }, [history.location.search, countAllBooks]);
+    console.log('&&', history.location.search);
+    (async () => {
+      const dataFroDB = await axios.get(
+        `${url}/api/v1/books/${history.location.search}`
+      );
+      setBooks(dataFroDB.data.data.books);
+      console.log('ee', dataFroDB.data.data.books);
+    })();
+  }, [history.location.search]);
+
+  // React.useEffect(() => {
+  //   fetchData();
+  //   const query = new URLSearchParams(history.location.search);
+  //   const currentPage = +query.get('page');
+  //   const maxPage = Math.ceil(countAllBooks / limit);
+  //   setIsPreviousButton(currentPage > 1);
+  //   setIsNextButton(maxPage > currentPage);
+  // }, [history.location.search, countAllBooks]);
 
   const handlePreviousBtn = () => {
     const query = new URLSearchParams(history.location.search);
@@ -101,7 +109,7 @@ const BooksComponent = () => {
         <BooksComponentRight>
           <ItemsContainer>
             {books.map(book => (
-              <SingleBookCard2 key={book.id} book={book} />
+              <SingleBookCard key={book.id} book={book} />
               // <SingleBookCard key={book.id} book={book} />
             ))}
           </ItemsContainer>

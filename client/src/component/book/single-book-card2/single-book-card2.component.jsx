@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -33,17 +35,12 @@ const SingleBookCard2 = ({ book }) => {
         </div>
         <div className="card__content">
           <h4 className="title">{book.name}</h4>
-          {/* <h5 className="description">
-            {book.description.slice(0, 152)}
-            {book.description.length > 150 ? <span>...</span> : null}
-          </h5> */}
           <div className="author">{book.author}</div>
           <div className="price">
             <h4 className="price-old">{book.price} $</h4>
             <h2 className="price-discount">{book.priceDiscount} $</h2>
           </div>
         </div>
-        {/* <Button>ggg</Button> */}
         <div className="card__footer">
           <div className="card__footer-left">
             <span className="publisher">{book.publisher.name}</span>

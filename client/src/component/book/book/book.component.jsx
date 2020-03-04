@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import moment from 'moment';
+import { connect } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { url } from '../../../config/environment';
+import { getBookAsync } from '../../../redux/book/book.action';
 import {
   BookPageContainer,
   PublisherContainer,
@@ -31,32 +31,16 @@ import {
 
 // https://i.ibb.co/VWnsKfS/user0.jpg
 
-const BookComponent = () => {
-  const [data, setData] = React.useState(null);
+const BookComponent = ({ book, getBook }) => {
   const history = useHistory();
   const match = useRouteMatch();
 
-  async function fetchData(id) {
-    try {
-      const book = await axios.get(`${url}/api/v1/books/${id}`);
-      if (book) {
-        setData(book.data.data.book);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   React.useEffect(() => {
-    fetchData(match.params.id);
+    // fetchData(match.params.id);
+    getBook(match.params.id);
   }, []);
 
-  React.useEffect(() => {
-    console.log('###');
-    console.log(data);
-  }, [data]);
-
-  if (!data) return <h1>Loading...</h1>;
+  if (!book) return <h1>Loading...</h1>;
   return (
     <BookPageContainer>
       <ButtonBack onClick={() => history.push('/books')}>
@@ -68,8 +52,8 @@ const BookComponent = () => {
       <br />
       <PublisherContainer>
         <UserPhotoContainer>
-          {data.publisher.photo ? (
-            <UserPhoto src={data.publisher.photo} />
+          {book.publisher.photo ? (
+            <UserPhoto src={book.publisher.photo} />
           ) : (
             <UserPhoto src="https://i.ibb.co/VWnsKfS/user0.jpg" />
           )}
@@ -78,7 +62,7 @@ const BookComponent = () => {
           <div>
             <UnderlineHelper>publisher</UnderlineHelper>
             <span>: </span>
-            <TransitionTextHelper>{data.publisher.name}</TransitionTextHelper>
+            <TransitionTextHelper>{book.publisher.name}</TransitionTextHelper>
           </div>
         </PublisherInfo>
       </PublisherContainer>
@@ -90,38 +74,38 @@ const BookComponent = () => {
         </BookImageContainer>
         <BookContent>
           <BookCreatedAt>
-            {moment(data.createdAt, 'YYYYMMDD').fromNow()}
+            {moment(book.createdAt, 'YYYYMMDD').fromNow()}
           </BookCreatedAt>
-          <BookTitle>{data.name}</BookTitle>
+          <BookTitle>{book.name}</BookTitle>
           <BookAuthor>
             <UnderlineHelper>Author</UnderlineHelper>
             <span>: </span>
-            <TransitionTextHelper>{data.author}</TransitionTextHelper>
+            <TransitionTextHelper>{book.author}</TransitionTextHelper>
           </BookAuthor>
           <BookGenre>
             <UnderlineHelper>Genre</UnderlineHelper>
             <span>: </span>
-            <TransitionTextHelper>{data.genre}</TransitionTextHelper>
+            <TransitionTextHelper>{book.genre}</TransitionTextHelper>
           </BookGenre>
           <BookPage>
             <UnderlineHelper>Genre</UnderlineHelper>
             <span>: </span>
-            <TransitionTextHelper>{data.pages}</TransitionTextHelper>
+            <TransitionTextHelper>{book.pages}</TransitionTextHelper>
           </BookPage>
           <BookDescription>
             <UnderlineHelper>Description</UnderlineHelper>
             <span>: </span>
-            {data.description}
+            {book.description}
           </BookDescription>
           <Price>
             Old Price
             <span>: </span>
-            {data.price}
+            {book.price}
           </Price>
           <PriceDiscount>
             New Price
             <span>: </span>
-            {data.priceDiscount}
+            {book.priceDiscount}
           </PriceDiscount>
           <br />
           <Button>
@@ -136,4 +120,12 @@ const BookComponent = () => {
   );
 };
 
-export default BookComponent;
+const mapStateToProps = state => ({
+  book: state.book.book
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBook: id => dispatch(getBookAsync(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookComponent);
