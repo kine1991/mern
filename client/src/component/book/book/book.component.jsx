@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { getBookAsync } from '../../../redux/book/book.action';
+import Spinner from '../../../helper/component/spinner/spinner.component';
+import { getBookAsync, clearBook } from '../../../redux/book/book.action';
 import {
   BookPageContainer,
   PublisherContainer,
@@ -31,16 +33,19 @@ import {
 
 // https://i.ibb.co/VWnsKfS/user0.jpg
 
-const BookComponent = ({ book, getBook }) => {
+const BookComponent = ({ book, getBook, clearBookAfterUnmount }) => {
   const history = useHistory();
   const match = useRouteMatch();
 
   React.useEffect(() => {
     // fetchData(match.params.id);
     getBook(match.params.id);
+    return () => {
+      clearBookAfterUnmount();
+    };
   }, []);
 
-  if (!book) return <h1>Loading...</h1>;
+  if (!book) return <Spinner color="gray" />;
   return (
     <BookPageContainer>
       <ButtonBack onClick={() => history.push('/books')}>
@@ -121,11 +126,13 @@ const BookComponent = ({ book, getBook }) => {
 };
 
 const mapStateToProps = state => ({
-  book: state.book.book
+  book: state.book.book,
+  isFetching: state.book.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBook: id => dispatch(getBookAsync(id))
+  getBook: id => dispatch(getBookAsync(id)),
+  clearBookAfterUnmount: () => dispatch(clearBook())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookComponent);

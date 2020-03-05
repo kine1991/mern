@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { url } from '../../../config/environment';
@@ -19,7 +18,7 @@ import {
 
 const BooksComponent = () => {
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
   const [books, setBooks] = React.useState([]);
   const [countAllBooks, setCountAllBooks] = React.useState(undefined);
   const [isPreviousButton, setIsPreviousButton] = React.useState(false);
