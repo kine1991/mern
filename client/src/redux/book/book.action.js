@@ -3,6 +3,16 @@ import axios from 'axios';
 import bookTypes from './book.types';
 import { url } from '../../config/environment';
 
+// GET COUNT BOOKS
+const getCountBooks = countBooks => ({
+  type: bookTypes.GET_COUNT_BOOKS,
+  payload: countBooks
+});
+
+const resetCountBooks = () => ({
+  type: bookTypes.RESET_COUNT_BOOKS
+});
+
 // GET ALL BOOKS
 const getBooksStart = () => ({
   type: bookTypes.GET_BOOKS_START
@@ -19,14 +29,18 @@ const getBooksFailure = error => ({
 });
 
 export const getBooksAsync = filter => async dispatch => {
+  dispatch(resetCountBooks());
   dispatch(getBooksStart());
   try {
-    console.log('filter', filter);
+    // console.log('filter222', filter);
     if (filter) {
+      console.log('filter222', filter);
       const books = await axios.get(`${url}/api/v1/books/${filter}`);
+      dispatch(getCountBooks(books.data.results));
       dispatch(getBooksSuccess(books.data.data.books));
     } else {
       const books = await axios.get(`${url}/api/v1/books`);
+      dispatch(getCountBooks(books.data.results));
       dispatch(getBooksSuccess(books.data.data.books));
     }
   } catch (error) {
@@ -94,4 +108,18 @@ export const getFilterAsync = () => async dispatch => {
   } catch (error) {
     dispatch(getFilterFailure(error));
   }
+};
+
+// // SET PARAMS FOR FILTER
+// export const setParamsForFilter = params => ({
+//   type: bookTypes.SET_PARAMS_FOR_FILTER,
+//   payload: params
+// });
+// SET PARAMS FOR FILTER
+export const setParamsForFilter = params => {
+  console.log('params', params);
+  return {
+    type: bookTypes.SET_PARAMS_FOR_FILTER,
+    payload: params
+  };
 };

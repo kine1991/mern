@@ -18,8 +18,24 @@ import {
 
 const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
   const history = useHistory();
+  const [additionalParams, setAdditionalParams] = React.useState({
+    limit: 20,
+    page: 1,
+    isPrevBtn: true,
+    isNextBtn: true,
+    countBooks: undefined
+  });
+  // React.useEffect(() => {
+  //   fetchData();
+  //   const query = new URLSearchParams(history.location.search);
+  //   const currentPage = +query.get('page');
+  //   const maxPage = Math.ceil(countAllBooks / limit);
+  //   setIsPreviousButton(currentPage > 1);
+  //   setIsNextButton(maxPage > currentPage);
+  // }, [history.location.search, countAllBooks]);
+
   React.useEffect(() => {
-    getBooks();
+    // getBooks();
 
     return () => {
       clearBooksAfterUnmount();
@@ -27,7 +43,11 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
   }, []);
 
   React.useEffect(() => {
-    if (history.location.search === '?' || history.location.search === '') {
+
+    if (
+      history.location.search === '?limit=20' ||
+      history.location.search === ''
+    ) {
       getBooks();
     } else {
       getBooks(history.location.search);
@@ -40,7 +60,11 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
 
   return (
     <React.Fragment>
-      <Title>Books</Title>
+      <Title
+        onClick={() => setAdditionalParams({ ...additionalParams, limit: 30 })}
+      >
+        Books
+      </Title>
       <BooksComponentContainer>
         <BooksComponentLeft>
           <Filter />

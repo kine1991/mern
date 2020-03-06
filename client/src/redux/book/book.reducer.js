@@ -4,7 +4,14 @@ const INITIAL_STATE = {
   books: null,
   book: null,
   error: null,
-  isFetching: true
+  isFetching: true,
+  countBooks: undefined,
+  countBooksIsResolve: false,
+  paramsForFilter: {
+    genre: [],
+    author: [],
+    limit: 20
+  }
 };
 
 const bookReducer = (state = INITIAL_STATE, action) => {
@@ -64,6 +71,28 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: false,
         error: action.payload
+      };
+
+    // SET PARAMS FOR FILTER
+    case bookTypes.SET_PARAMS_FOR_FILTER:
+      return {
+        ...state,
+        paramsForFilter: action.payload
+      };
+
+    // GET COUNT BOOKS
+    case bookTypes.GET_COUNT_BOOKS:
+      return {
+        ...state,
+        countBooks: action.payload,
+        countBooksIsResolve: true
+      };
+
+    case bookTypes.RESET_COUNT_BOOKS:
+      return {
+        ...state,
+        countBooks: undefined,
+        countBooksIsResolve: false
       };
 
     // CLEAR BOOK

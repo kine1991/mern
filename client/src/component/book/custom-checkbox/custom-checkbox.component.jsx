@@ -11,32 +11,32 @@ export const CustomCheckbox = ({
   value,
   category,
   checked,
-  arrayOfFilter,
-  setArrayOfFilter
+  filterParams,
+  setFilterParams
 }) => {
   const handleCheck = (e, value) => {
     if (e.target.checked) {
-      if (typeof arrayOfFilter[category] === 'string') {
-        setArrayOfFilter({
-          ...arrayOfFilter,
-          [category]: [arrayOfFilter[category], value]
+      if (typeof filterParams[category] === 'string') {
+        setFilterParams({
+          ...filterParams,
+          [category]: [filterParams[category], value]
         });
       } else {
-        setArrayOfFilter({
-          ...arrayOfFilter,
-          [category]: [...arrayOfFilter[category], value]
+        setFilterParams({
+          ...filterParams,
+          [category]: [...filterParams[category], value]
         });
       }
     } else {
-      if (typeof arrayOfFilter[category] === 'string') {
-        setArrayOfFilter({
-          ...arrayOfFilter,
+      if (typeof filterParams[category] === 'string') {
+        setFilterParams({
+          ...filterParams,
           [category]: []
         });
       } else {
-        setArrayOfFilter({
-          ...arrayOfFilter,
-          [category]: arrayOfFilter[category].filter(cur => {
+        setFilterParams({
+          ...filterParams,
+          [category]: filterParams[category].filter(cur => {
             return cur !== value;
           })
         });
