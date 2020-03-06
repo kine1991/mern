@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
@@ -15,17 +16,31 @@ export const CustomCheckbox = ({
 }) => {
   const handleCheck = (e, value) => {
     if (e.target.checked) {
-      setArrayOfFilter({
-        ...arrayOfFilter,
-        [category]: [...arrayOfFilter[category], value]
-      });
+      if (typeof arrayOfFilter[category] === 'string') {
+        setArrayOfFilter({
+          ...arrayOfFilter,
+          [category]: [arrayOfFilter[category], value]
+        });
+      } else {
+        setArrayOfFilter({
+          ...arrayOfFilter,
+          [category]: [...arrayOfFilter[category], value]
+        });
+      }
     } else {
-      setArrayOfFilter({
-        ...arrayOfFilter,
-        [category]: arrayOfFilter[category].filter(cur => {
-          return cur !== value;
-        })
-      });
+      if (typeof arrayOfFilter[category] === 'string') {
+        setArrayOfFilter({
+          ...arrayOfFilter,
+          [category]: []
+        });
+      } else {
+        setArrayOfFilter({
+          ...arrayOfFilter,
+          [category]: arrayOfFilter[category].filter(cur => {
+            return cur !== value;
+          })
+        });
+      }
     }
   };
 

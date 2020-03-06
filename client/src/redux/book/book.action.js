@@ -21,8 +21,9 @@ const getBooksFailure = error => ({
 export const getBooksAsync = filter => async dispatch => {
   dispatch(getBooksStart());
   try {
+    console.log('filter', filter);
     if (filter) {
-      const books = await axios.get(`${url}/api/v1/books`);
+      const books = await axios.get(`${url}/api/v1/books/${filter}`);
       dispatch(getBooksSuccess(books.data.data.books));
     } else {
       const books = await axios.get(`${url}/api/v1/books`);

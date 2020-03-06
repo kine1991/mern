@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Filter from '../filter/filter.component';
 import Spinner from '../../../helper/component/spinner/spinner.component';
@@ -17,6 +17,7 @@ import {
 } from './books.styles';
 
 const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
+  const history = useHistory();
   React.useEffect(() => {
     getBooks();
 
@@ -25,9 +26,13 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   console.log(books);
-  // }, [books]);
+  React.useEffect(() => {
+    if (history.location.search === '?' || history.location.search === '') {
+      getBooks();
+    } else {
+      getBooks(history.location.search);
+    }
+  }, [history.location.search]);
 
   if (!books) {
     return <Spinner color="gray" />;
@@ -58,7 +63,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBooks: filter => dispatch(getBooksAsync(filter)),
+  getBooks: queryParams => dispatch(getBooksAsync(queryParams)),
   clearBooksAfterUnmount: () => dispatch(clearBooks())
 });
 

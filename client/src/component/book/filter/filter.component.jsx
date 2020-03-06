@@ -31,13 +31,22 @@ const Filter = ({ filter, getFilter }) => {
   };
 
   React.useEffect(() => {
+    console.log('@', history.location.search);
+    console.log('@@', arrayOfFilter);
+  }, [history.location.search]);
+
+  React.useEffect(() => {
+    console.log('##', arrayOfFilter);
+  }, [arrayOfFilter]);
+
+  React.useEffect(() => {
     // get data from db
     getFilter();
 
     // Turn query params into object (arrayOfFilter)
     const filterString = history.location.search.slice(1);
     const filterParsed = queryString.parse(filterString);
-
+    console.log('(((', filterParsed);
     setArrayOfFilter({ ...arrayOfFilter, ...filterParsed });
   }, []);
 
