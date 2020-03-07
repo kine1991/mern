@@ -4,6 +4,18 @@ export const BooksComponentContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+export const CurrentPage = styled.span`
+  font-size: 10px;
+  font-weight: 500;
+  color: #b28451;
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  padding: 0.2rem 1rem;
+  border-radius: 50%;
+  background-color: #dcdcdc;
+`;
 export const BooksComponentLeft = styled.div`
   flex-basis: 200px;
   background: #f7f7f7;
@@ -27,11 +39,22 @@ export const Pagination = styled.div`
   margin-top: 1rem;
 `;
 
-export const Button = styled.div`
+export const Button = styled.button`
   margin: 0 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   background: #dcdcdc;
+  border: none;
+  transition: all 0.5s;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    transform: translateY(2px);
+  }
+  &:hover {
+    background: #d4d4d4;
+  }
 `;
 
 export const ItemsContainer = styled.div`

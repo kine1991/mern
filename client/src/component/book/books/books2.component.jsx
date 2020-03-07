@@ -1,11 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 
 import Filter from '../filter/filter.component';
 import Spinner from '../../../helper/component/spinner/spinner.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
-import { getBooksAsync, clearBooks } from '../../../redux/book/book.action';
+import {
+  getBooksAsync,
+  clearBooks,
+  getBooksCountAsync
+} from '../../../redux/book/book.action';
 import {
   BooksComponentContainer,
   BooksComponentLeft,
@@ -13,26 +19,39 @@ import {
   Title,
   Pagination,
   Button,
-  ItemsContainer
+  ItemsContainer,
+  CurrentPage
 } from './books.styles';
 
-const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
+const Books2 = ({
+  books,
+  countBooks,
+  filterParams,
+  getBooks,
+  clearBooksAfterUnmount,
+  getBooksCount
+}) => {
   const history = useHistory();
-  const [additionalParams, setAdditionalParams] = React.useState({
-    limit: 20,
-    page: 1,
-    isPrevBtn: true,
-    isNextBtn: true,
-    countBooks: undefined
+  const [btnState, setBtnState] = React.useState({
+    disabledPrevBtn: true,
+    disabledNextBtn: true
   });
-  // React.useEffect(() => {
-  //   fetchData();
-  //   const query = new URLSearchParams(history.location.search);
-  //   const currentPage = +query.get('page');
-  //   const maxPage = Math.ceil(countAllBooks / limit);
-  //   setIsPreviousButton(currentPage > 1);
-  //   setIsNextButton(maxPage > currentPage);
-  // }, [history.location.search, countAllBooks]);
+  React.useEffect(() => {
+    if (countBooks !== undefined) {
+      const limit = parseInt(filterParams.limit, 10);
+      const page = parseInt(filterParams.page, 10);
+      const maxPage = Math.ceil(countBooks / limit);
+      // console.log('maxPage', maxPage);
+      // console.log('limit', limit);
+      // console.log('page', page);
+      // console.log('countBooks', countBooks);
+      setBtnState({
+        ...btnState,
+        disabledPrevBtn: page === 1,
+        disabledNextBtn: maxPage <= page
+      });
+    }
+  }, [history.location.search, countBooks]);
 
   React.useEffect(() => {
     // getBooks();
@@ -43,16 +62,39 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
   }, []);
 
   React.useEffect(() => {
-
     if (
       history.location.search === '?limit=20' ||
       history.location.search === ''
     ) {
+      getBooksCount();
       getBooks();
     } else {
+      getBooksCount(history.location.search);
       getBooks(history.location.search);
     }
   }, [history.location.search]);
+
+  const handlePrevBtnClick = () => {
+    const copyFilterParams = Object.assign({}, filterParams);
+    const prevPage = parseInt(copyFilterParams.page, 10) - 1;
+    copyFilterParams.page = prevPage;
+    const filterString = queryString.stringify(copyFilterParams);
+    history.push({
+      pathname: '/books',
+      search: `?${filterString}`
+    });
+  };
+
+  const handleNextBtnClick = () => {
+    const copyFilterParams = Object.assign({}, filterParams);
+    const nextPage = parseInt(copyFilterParams.page, 10) + 1;
+    copyFilterParams.page = nextPage;
+    const filterString = queryString.stringify(copyFilterParams);
+    history.push({
+      pathname: '/books',
+      search: `?${filterString}`
+    });
+  };
 
   if (!books) {
     return <Spinner color="gray" />;
@@ -60,11 +102,7 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
 
   return (
     <React.Fragment>
-      <Title
-        onClick={() => setAdditionalParams({ ...additionalParams, limit: 30 })}
-      >
-        Books
-      </Title>
+      <Title>Books</Title>
       <BooksComponentContainer>
         <BooksComponentLeft>
           <Filter />
@@ -75,6 +113,24 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
               <SingleBookCard key={book.id} book={book} />
             ))}
           </ItemsContainer>
+          {countBooks === undefined ||
+          countBooks <= filterParams.limit ? null : (
+            <Pagination>
+              <Button
+                onClick={handlePrevBtnClick}
+                disabled={btnState.disabledPrevBtn}
+              >
+                prev
+              </Button>
+              <CurrentPage>{filterParams.page}</CurrentPage>
+              <Button
+                onClick={handleNextBtnClick}
+                disabled={btnState.disabledNextBtn}
+              >
+                next
+              </Button>
+            </Pagination>
+          )}
         </BooksComponentRight>
       </BooksComponentContainer>
     </React.Fragment>
@@ -83,11 +139,14 @@ const Books2 = ({ books, getBooks, clearBooksAfterUnmount }) => {
 
 const mapStateToProps = state => ({
   books: state.book.books,
+  countBooks: state.book.countBooks,
+  filterParams: state.book.filterParams,
   isFetching: state.book.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({
   getBooks: queryParams => dispatch(getBooksAsync(queryParams)),
+  getBooksCount: queryParams => dispatch(getBooksCountAsync(queryParams)),
   clearBooksAfterUnmount: () => dispatch(clearBooks())
 });
 

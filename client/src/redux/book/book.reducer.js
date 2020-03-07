@@ -7,10 +7,11 @@ const INITIAL_STATE = {
   isFetching: true,
   countBooks: undefined,
   countBooksIsResolve: false,
-  paramsForFilter: {
+  filterParams: {
     genre: [],
     author: [],
-    limit: 20
+    limit: 20,
+    page: 1
   }
 };
 
@@ -77,7 +78,7 @@ const bookReducer = (state = INITIAL_STATE, action) => {
     case bookTypes.SET_PARAMS_FOR_FILTER:
       return {
         ...state,
-        paramsForFilter: action.payload
+        filterParams: action.payload
       };
 
     // GET COUNT BOOKS

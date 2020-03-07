@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -15,13 +16,7 @@ export const FilterContainer = styled.div`
   padding: 1rem;
 `;
 
-const Filter = ({
-  filterParams,
-  filter,
-  limit,
-  setFilterParams,
-  getFilter
-}) => {
+const Filter = ({ filterParams, filter, setFilterParams, getFilter }) => {
   const history = useHistory();
 
   const clearFilter = () => {
@@ -43,10 +38,8 @@ const Filter = ({
     // Turn query params into object (filterParams)
     const filterString = history.location.search.slice(1);
     const filterParsed = queryString.parse(filterString);
-    // console.log('filterParams', filterParams);
 
     setFilterParams({ ...filterParams, ...filterParsed });
-    // applyFilter();
   }, [history.location.search]);
 
   // Renreding
@@ -92,7 +85,7 @@ const Filter = ({
 
 const mapStateToProps = state => ({
   filter: state.book.filter,
-  filterParams: state.book.paramsForFilter
+  filterParams: state.book.filterParams
 });
 
 const mapDispatchToProps = dispatch => ({

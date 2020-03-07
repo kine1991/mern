@@ -13,6 +13,25 @@ const resetCountBooks = () => ({
   type: bookTypes.RESET_COUNT_BOOKS
 });
 
+export const getBooksCountAsync = filter => async dispatch => {
+  const filterForCountBooks = filter
+    .split('&')
+    .filter(element => {
+      return !(element.includes('limit') || element.includes('page'));
+    })
+    .join('&');
+
+  dispatch(resetCountBooks());
+  try {
+    const booksCount = await axios.get(
+      `${url}/api/v1/books/${filterForCountBooks}`
+    );
+    dispatch(getCountBooks(booksCount.data.results));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // GET ALL BOOKS
 const getBooksStart = () => ({
   type: bookTypes.GET_BOOKS_START
@@ -29,18 +48,17 @@ const getBooksFailure = error => ({
 });
 
 export const getBooksAsync = filter => async dispatch => {
-  dispatch(resetCountBooks());
   dispatch(getBooksStart());
   try {
-    // console.log('filter222', filter);
     if (filter) {
-      console.log('filter222', filter);
+      // console.log('filter222', filter);
+      // console.log('filter222', filter);
+      // dispatch(getCountBooks(books.data.results));
+      // dispatch(getCountBooks(books.data.results));
       const books = await axios.get(`${url}/api/v1/books/${filter}`);
-      dispatch(getCountBooks(books.data.results));
       dispatch(getBooksSuccess(books.data.data.books));
     } else {
       const books = await axios.get(`${url}/api/v1/books`);
-      dispatch(getCountBooks(books.data.results));
       dispatch(getBooksSuccess(books.data.data.books));
     }
   } catch (error) {
@@ -117,7 +135,7 @@ export const getFilterAsync = () => async dispatch => {
 // });
 // SET PARAMS FOR FILTER
 export const setParamsForFilter = params => {
-  console.log('params', params);
+  // console.log('params', params);
   return {
     type: bookTypes.SET_PARAMS_FOR_FILTER,
     payload: params
