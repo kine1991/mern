@@ -55,6 +55,21 @@ const Books2 = ({
 
   React.useEffect(() => {
     // getBooks();
+    // let initialFilterParams = queryString.stringify(filterParams);
+    // // console.log('filterParams', filterParams);
+    // // console.log('q', q);
+
+    if (
+      history.location.search === '?limit=20' ||
+      history.location.search === '?page=20' ||
+      history.location.search === '?' ||
+      history.location.search === ''
+    ) {
+      history.push({
+        pathname: '/books',
+        search: `?limit=20&page=1`
+      });
+    }
 
     return () => {
       clearBooksAfterUnmount();

@@ -14,6 +14,19 @@ const resetCountBooks = () => ({
 });
 
 export const getBooksCountAsync = filter => async dispatch => {
+  // let filterForCountBooks;
+
+  // if (filter) {
+  //   filterForCountBooks = filter
+  //     .split('&')
+  //     .filter(element => {
+  //       return !(element.includes('limit') || element.includes('page'));
+  //     })
+  //     .join('&');
+  // } else {
+  //   filterForCountBooks = null;
+  // }
+
   const filterForCountBooks = filter
     .split('&')
     .filter(element => {

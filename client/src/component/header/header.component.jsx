@@ -28,8 +28,8 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
             <Nav.Link as={Link} to="/books">
               Books
             </Nav.Link>
-            <Nav.Link as={Link} to="/cart">
-              Cart
+            <Nav.Link as={Link} to="/users">
+              Users
             </Nav.Link>
             {currentUser ? (
               // <Nav.Link onClick={logout}>Logout</Nav.Link>
@@ -39,8 +39,8 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
                   title={currentUser.name}
                   id="basic-nav-dropdown"
                 >
-                  <NavDropdown.Item as={Link} to="/about">
-                    About
+                  <NavDropdown.Item as={Link} to="/users">
+                    Users
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/settings/">
                     Settings

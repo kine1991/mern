@@ -1,11 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import axios from 'axios';
-import { useHistory, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 
-import { url } from '../../../config/environment';
 import Filter from '../filter/filter.component';
+import Spinner from '../../../helper/component/spinner/spinner.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
-// import SingleBookCard2 from '../single-book-card2/single-book-card2.component';
+import {
+  getBooksAsync,
+  clearBooks,
+  getBooksCountAsync
+} from '../../../redux/book/book.action';
 import {
   BooksComponentContainer,
   BooksComponentLeft,
@@ -13,90 +19,101 @@ import {
   Title,
   Pagination,
   Button,
-  ItemsContainer
+  ItemsContainer,
+  CurrentPage
 } from './books.styles';
 
-const BooksComponent = () => {
+const BooksComponent = ({
+  books,
+  countBooks,
+  filterParams,
+  getBooks,
+  clearBooksAfterUnmount,
+  getBooksCount
+}) => {
   const history = useHistory();
-  // const location = useLocation();
-  const [books, setBooks] = React.useState([]);
-  const [countAllBooks, setCountAllBooks] = React.useState(undefined);
-  const [isPreviousButton, setIsPreviousButton] = React.useState(false);
-  const [isNextButton, setIsNextButton] = React.useState(false);
-  const [limit, setLimit] = React.useState(20);
-  // const [paginationData, setPaginationData] = React.useState({
-  //   countAllBooks: 0,
-  //   page: 1,
-  //   minPage: 1,
-  //   maxPage: 1,
-  //   limit: 20,
-  //   isPreviousButton: false,
-  //   isNextButton: false
-  // });
-
-  async function fetchData() {
-    try {
-      const count = await axios.get(`${url}/api/v1/books/count`);
-      setCountAllBooks(count.data.countBooks);
-
-      const query = new URLSearchParams(history.location.search);
-      const queryPage = query.get('page');
-      if (queryPage) {
-        const dataFroDB = await axios.get(
-          `${url}/api/v1/books?limit=20&page=${queryPage}`
-        );
-        setBooks(dataFroDB.data.data.books);
-      } else {
-        const dataFroDB = await axios.get(`${url}/api/v1/books?limit=20`);
-        setBooks(dataFroDB.data.data.books);
-      }
-      // console.log('queryPage', queryPage);
-    } catch (error) {
-      console.log(error);
+  const [btnState, setBtnState] = React.useState({
+    disabledPrevBtn: true,
+    disabledNextBtn: true
+  });
+  React.useEffect(() => {
+    if (countBooks !== undefined) {
+      const limit = parseInt(filterParams.limit, 10);
+      const page = parseInt(filterParams.page, 10);
+      const maxPage = Math.ceil(countBooks / limit);
+      // console.log('maxPage', maxPage);
+      // console.log('limit', limit);
+      // console.log('page', page);
+      // console.log('countBooks', countBooks);
+      setBtnState({
+        ...btnState,
+        disabledPrevBtn: page === 1,
+        disabledNextBtn: maxPage <= page
+      });
     }
-  }
+  }, [history.location.search, countBooks]);
 
   React.useEffect(() => {
-    fetchData();
+    // getBooks();
+    // let initialFilterParams = queryString.stringify(filterParams);
+    // // console.log('filterParams', filterParams);
+    // // console.log('q', q);
+
+    if (
+      history.location.search === '?limit=20' ||
+      history.location.search === '?page=20' ||
+      history.location.search === '?' ||
+      history.location.search === ''
+    ) {
+      history.push({
+        pathname: '/books',
+        search: `?limit=20&page=1`
+      });
+    }
+
+    return () => {
+      clearBooksAfterUnmount();
+    };
   }, []);
 
   React.useEffect(() => {
-    console.log('&&', history.location.search);
-    (async () => {
-      const dataFroDB = await axios.get(
-        `${url}/api/v1/books/${history.location.search}`
-      );
-      setBooks(dataFroDB.data.data.books);
-      console.log('ee', dataFroDB.data.data.books);
-    })();
+    if (
+      history.location.search === '?limit=20' ||
+      history.location.search === ''
+    ) {
+      getBooksCount();
+      getBooks();
+    } else {
+      getBooksCount(history.location.search);
+      getBooks(history.location.search);
+    }
   }, [history.location.search]);
 
-  // React.useEffect(() => {
-  //   fetchData();
-  //   const query = new URLSearchParams(history.location.search);
-  //   const currentPage = +query.get('page');
-  //   const maxPage = Math.ceil(countAllBooks / limit);
-  //   setIsPreviousButton(currentPage > 1);
-  //   setIsNextButton(maxPage > currentPage);
-  // }, [history.location.search, countAllBooks]);
-
-  const handlePreviousBtn = () => {
-    const query = new URLSearchParams(history.location.search);
-    const currentPage = +query.get('page');
-    if (Number.isInteger(currentPage) && currentPage > 1) {
-      query.set('page', currentPage - 1);
-      history.replace({ ...history.location, search: query.toString() });
-    }
+  const handlePrevBtnClick = () => {
+    const copyFilterParams = Object.assign({}, filterParams);
+    const prevPage = parseInt(copyFilterParams.page, 10) - 1;
+    copyFilterParams.page = prevPage;
+    const filterString = queryString.stringify(copyFilterParams);
+    history.push({
+      pathname: '/books',
+      search: `?${filterString}`
+    });
   };
 
-  const handleNextBtn = () => {
-    const query = new URLSearchParams(history.location.search);
-    const currentPage = +query.get('page');
-    if (Number.isInteger(currentPage)) {
-      query.set('page', currentPage + 1);
-      history.replace({ ...history.location, search: query.toString() });
-    }
+  const handleNextBtnClick = () => {
+    const copyFilterParams = Object.assign({}, filterParams);
+    const nextPage = parseInt(copyFilterParams.page, 10) + 1;
+    copyFilterParams.page = nextPage;
+    const filterString = queryString.stringify(copyFilterParams);
+    history.push({
+      pathname: '/books',
+      search: `?${filterString}`
+    });
   };
+
+  if (!books) {
+    return <Spinner color="gray" />;
+  }
 
   return (
     <React.Fragment>
@@ -109,23 +126,43 @@ const BooksComponent = () => {
           <ItemsContainer>
             {books.map(book => (
               <SingleBookCard key={book.id} book={book} />
-              // <SingleBookCard key={book.id} book={book} />
             ))}
           </ItemsContainer>
-          {books.length ? (
+          {countBooks === undefined ||
+          countBooks <= filterParams.limit ? null : (
             <Pagination>
-              {isPreviousButton ? (
-                <Button onClick={handlePreviousBtn}>previous</Button>
-              ) : null}
-              {isNextButton ? (
-                <Button onClick={handleNextBtn}>next</Button>
-              ) : null}
+              <Button
+                onClick={handlePrevBtnClick}
+                disabled={btnState.disabledPrevBtn}
+              >
+                prev
+              </Button>
+              <CurrentPage>{filterParams.page}</CurrentPage>
+              <Button
+                onClick={handleNextBtnClick}
+                disabled={btnState.disabledNextBtn}
+              >
+                next
+              </Button>
             </Pagination>
-          ) : null}
+          )}
         </BooksComponentRight>
       </BooksComponentContainer>
     </React.Fragment>
   );
 };
 
-export default BooksComponent;
+const mapStateToProps = state => ({
+  books: state.book.books,
+  countBooks: state.book.countBooks,
+  filterParams: state.book.filterParams,
+  isFetching: state.book.isFetching
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBooks: queryParams => dispatch(getBooksAsync(queryParams)),
+  getBooksCount: queryParams => dispatch(getBooksCountAsync(queryParams)),
+  clearBooksAfterUnmount: () => dispatch(clearBooks())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BooksComponent);
