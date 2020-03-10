@@ -11,8 +11,6 @@ exports.topFiveCheapBook = (req, res, next) => {
 };
 
 exports.getAllBooks = catchAsync(async (req, res) => {
-  console.log('req.query');
-  console.log(req.query);
   const features = new APIFeatures(Book.find(), req.query)
     .filter()
     .sort()
@@ -57,6 +55,18 @@ exports.getCountBooks = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     countBooks
+  });
+});
+
+// getBooksByPublisher
+exports.getBooksByPublisher = catchAsync(async (req, res, next) => {
+  const books = await Book.find({ publisher: req.params.id });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      books: books
+    }
   });
 });
 

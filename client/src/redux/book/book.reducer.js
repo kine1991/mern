@@ -55,6 +55,25 @@ const bookReducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
 
+    // GET BOOKS BY PUBLISHER
+    case bookTypes.GET_BOOKS_BY_PUBLISHER_START:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case bookTypes.GET_BOOKS_BY_PUBLISHER_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        books: action.payload
+      };
+    case bookTypes.GET_BOOKS_BY_PUBLISHER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload
+      };
+
     // GET FILTER
     case bookTypes.GET_FILTER_START:
       return {

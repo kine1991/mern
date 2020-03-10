@@ -15,7 +15,8 @@ import withAuthorization from './helper/hoc/withAuthorization';
 import BooksComponent from './component/book/books/books.component';
 // import BooksComponent2 from './component/book/books/books2.component';
 import BookComponent from './component/book/book/book.component';
-import UsersComponent from './component/user/users.component';
+import UsersComponent from './component/user/users/users.component';
+import UserComponent from './component/user/user/user.component';
 
 // eslint-disable-next-line no-shadow
 const App = ({ isFetching, setCurrentUser }) => {
@@ -35,6 +36,7 @@ const App = ({ isFetching, setCurrentUser }) => {
           <Route path="/" exact component={() => <h1>Home</h1>} />
           <Route path="/about" exact component={withAuthorization(About)} />
           <Route path="/users" exact component={UsersComponent} />
+          <Route path="/users/:id" exact component={UserComponent} />
           <Route path="/books" exact component={BooksComponent} />
           {/* <Route path="/books" exact component={BooksComponent2} /> */}
           <Route path="/books/:id" exact component={BookComponent} />

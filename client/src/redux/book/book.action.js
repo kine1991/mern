@@ -105,6 +105,34 @@ export const getBookAsync = id => async dispatch => {
   }
 };
 
+// GET BOOKS BY PUBLISHER
+const getBooksByPublisherStart = () => ({
+  type: bookTypes.GET_BOOKS_BY_PUBLISHER_START
+});
+
+const getBooksByPublisherSuccess = book => ({
+  type: bookTypes.GET_BOOKS_BY_PUBLISHER_SUCCESS,
+  payload: book
+});
+
+const getBooksByPublisherFailure = error => ({
+  type: bookTypes.GET_BOOKS_BY_PUBLISHER_FAILURE,
+  payload: error
+});
+
+export const getBooksByPublisherAsync = id => async dispatch => {
+  dispatch(getBooksByPublisherStart());
+
+  try {
+    const books = await axios.get(
+      `${url}/api/v1/books/get-books-by-publisher/${id}`
+    );
+    dispatch(getBooksByPublisherSuccess(books.data.data.books));
+  } catch (error) {
+    dispatch(getBooksByPublisherFailure(error));
+  }
+};
+
 // CLEAR BOOK
 export const clearBook = () => ({
   type: bookTypes.CLEAR_BOOK

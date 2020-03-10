@@ -23,6 +23,9 @@ router
 
 router.route('/filter').get(bookController.getFilterDistinctValues);
 router.route('/count').get(bookController.getCountBooks);
+router
+  .route('/get-books-by-publisher/:id')
+  .get(bookController.getBooksByPublisher);
 
 router
   .route('/:id')
