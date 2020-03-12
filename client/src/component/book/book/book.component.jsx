@@ -48,7 +48,8 @@ const BookComponent = ({ book, getBook, clearBookAfterUnmount }) => {
   if (!book) return <Spinner color="gray" />;
   return (
     <BookPageContainer>
-      <ButtonBack onClick={() => history.push('/books')}>
+      <ButtonBack onClick={() => history.goBack()}>
+      {/* <ButtonBack onClick={() => history.push('/books')}> */}
         <LeftIcon>
           <i className="fa fa-arrow-left" />
         </LeftIcon>

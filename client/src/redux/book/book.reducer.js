@@ -1,7 +1,7 @@
 import bookTypes from './book.types';
 
 const INITIAL_STATE = {
-  books: null,
+  books: [],
   book: null,
   error: null,
   isFetching: true,
@@ -126,7 +126,7 @@ const bookReducer = (state = INITIAL_STATE, action) => {
     case bookTypes.CLEAR_BOOKS:
       return {
         ...state,
-        books: null
+        books: []
       };
 
     default:
