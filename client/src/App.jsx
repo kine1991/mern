@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import LoginComponent from './component/login/login.component';
 import RegisterComponent from './component/register/register.component';
 import Header from './component/header/header.component';
+import Header2 from './component/header2/header2.component';
 // eslint-disable-next-line import/no-named-as-default
 import About from './component/about/about.component';
 // import Button from 'react-bootstrap/Button'
@@ -31,6 +32,7 @@ const App = ({ isFetching, setCurrentUser }) => {
   return (
     <React.Fragment>
       <Header />
+      <Header2 />
       <Switch>
         <CustomLayout>
           <Route path="/" exact component={() => <h1>Home</h1>} />
