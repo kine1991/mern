@@ -1,11 +1,23 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { Styles } from './single-book-card.styles';
-// import Button from '../../button/button.component';
+import {
+  SingleBookCardContainer,
+  CardPicture,
+  CartIcon,
+  CardContent,
+  Title,
+  Author,
+  Price,
+  PriceOld,
+  PriceDiscount,
+  CardFooter,
+  CardFooterLeft,
+  Publisher,
+  CardFooterRight,
+  CommentIcon,
+  HeartIcon,
+  Card
+} from './single-book-card.styles';
 
 const SingleBookCard = ({ book }) => {
   const history = useHistory();
@@ -19,45 +31,57 @@ const SingleBookCard = ({ book }) => {
   const handleOpen = () => {
     history.push(`/books/${book.id}`);
   };
+  const handleAddToCart = e => {
+    e.stopPropagation();
+    console.log('handleAddToCart', book.id);
+  };
 
   // console.log(book);
   return (
-    <Styles
-      imageUrl={book.imageUrl}
-      sizeOfName={book.name.length}
-      sizeOfDesc6iion={book.description.length}
-    >
-      <div className="card" onClick={handleOpen}>
-        <div className="card__picture">
-          <div className="cart-icon">
-            <i className="fa fa-heart" /> <span>2</span>
-          </div>
-        </div>
-        <div className="card__content">
-          <h4 className="title">{book.name}</h4>
-          <div className="author">{book.author}</div>
-          <div className="price">
-            <h4 className="price-old">{book.price} $</h4>
-            <h2 className="price-discount">{book.priceDiscount} $</h2>
-          </div>
-        </div>
-        <div className="card__footer">
-          <div className="card__footer-left">
-            <span className="publisher">{book.publisher.name}</span>
-          </div>
-          <div className="card__footer-right">
-            <div className="comment-icon" onClick={handleComment}>
-              <i className="fa fa-comment" /> <span>12</span>
-            </div>
-            <div className="heart-icon" onClick={handleHeart}>
-              <i className="fa fa-heart" /> <span>12</span>
-            </div>
-            {/* <i className="fa fa-shopping-cart" /> */}
-            {/* <Link to={`/books/${book.id}`} className="card__footer-right">Open</Link> */}
-          </div>
-        </div>
-      </div>
-    </Styles>
+    <SingleBookCardContainer>
+      <Card onClick={handleOpen}>
+        <CardPicture imageUrl={book.imageUrl}>
+          <CartIcon onClick={handleAddToCart}>
+            <i className="fa fa-cart-plus" />
+            <span> </span>
+            <span>2</span>
+          </CartIcon>
+        </CardPicture>
+        <CardContent>
+          <Title>{book.name}</Title>
+          <Author>{book.author}</Author>
+          <Price>
+            <PriceOld>
+              {book.price}
+              <span> </span>
+              <span>$</span>
+            </PriceOld>
+            <PriceDiscount>
+              {book.priceDiscount}
+              <span> </span>
+              <span>$</span>
+            </PriceDiscount>
+          </Price>
+        </CardContent>
+        <CardFooter>
+          <CardFooterLeft>
+            <Publisher>{book.publisher.name}</Publisher>
+          </CardFooterLeft>
+          <CardFooterRight>
+            <CommentIcon>
+              <i className="fa fa-comment" />
+              <span> </span>
+              <span>12</span>
+            </CommentIcon>
+            <HeartIcon>
+              <i className="fa fa-heart" />
+              <span> </span>
+              <span>12</span>
+            </HeartIcon>
+          </CardFooterRight>
+        </CardFooter>
+      </Card>
+    </SingleBookCardContainer>
   );
 };
 
