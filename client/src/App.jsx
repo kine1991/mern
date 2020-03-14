@@ -31,7 +31,7 @@ const App = ({ isFetching, setCurrentUser }) => {
   }
   return (
     <React.Fragment>
-      <Header />
+      {/* <Header /> */}
       <Header2 />
       <Switch>
         <CustomLayout>

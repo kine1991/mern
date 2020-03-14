@@ -49,8 +49,10 @@ export const loginAsync = data => async dispatch => {
   dispatch(loginStart());
   try {
     const userData = await axios.post(`${url}/api/v1/users/login`, data);
+    console.log('fff', userData);
     dispatch(loginSuccess(userData.data));
   } catch (error) {
+    console.log('e', error.response);
     dispatch(loginFailure(error.response));
   }
 };

@@ -33,7 +33,7 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
             </Nav.Link>
             {currentUser ? (
               // <Nav.Link onClick={logout}>Logout</Nav.Link>
-              <>
+              <React.Fragment>
                 <NavDropdown
                   className="ml-3"
                   title={currentUser.name}
@@ -59,16 +59,16 @@ const HeaderComponent = ({ currentUser, logoutUser }) => {
                 <div className="container-image">
                   <Image className="image" src="" roundedCircle />
                 </div>
-              </>
+              </React.Fragment>
             ) : (
-              <>
+              <React.Fragment>
                 <Nav.Link as={Link} to="/login">
                   Login
                 </Nav.Link>
                 <Nav.Link as={Link} to="/register">
                   Register
                 </Nav.Link>
-              </>
+              </React.Fragment>
             )}
           </Nav>
         </Navbar.Collapse>
