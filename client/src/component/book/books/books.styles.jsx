@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const BooksComponentContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 `;
 
 export const CurrentPage = styled.span`
@@ -21,6 +25,10 @@ export const BooksComponentLeft = styled.div`
   background: #f7f7f7;
   /* background: #dcdcdc; */
   margin-right: 2rem;
+
+  @media (max-width: 576px) {
+    margin-right: 0rem;
+  }
 `;
 
 export const BooksComponentRight = styled.div`
@@ -76,6 +84,6 @@ export const ItemsContainer = styled.div`
   }
   @media (max-width: 576px) {
     grid-template-columns: repeat(1, 1fr);
-    grid-gap: 0rem;
+    grid-gap: 1rem;
   }
 `;

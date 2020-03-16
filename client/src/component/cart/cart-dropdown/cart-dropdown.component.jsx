@@ -9,6 +9,9 @@ const CartDropdownContainer = styled.div`
   border: 1px solid black;
   height: 300px;
   width: 200px;
+  /* z-index: 990 !important; */
+  background-color: white;
+  opacity: 1;
 `;
 
 const CartDropdown = ({ setCartIsOpen }) => {

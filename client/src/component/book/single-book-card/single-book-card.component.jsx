@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { addItemToCart } from '../../../redux/cart/cart.action';
 import {
   SingleBookCardContainer,
   CardPicture,
@@ -19,7 +22,8 @@ import {
   Card
 } from './single-book-card.styles';
 
-const SingleBookCard = ({ book }) => {
+// eslint-disable-next-line no-shadow
+const SingleBookCard = ({ book, addItemToCart }) => {
   const history = useHistory();
 
   const handleHeart = e => {
@@ -33,7 +37,26 @@ const SingleBookCard = ({ book }) => {
   };
   const handleAddToCart = e => {
     e.stopPropagation();
-    console.log('handleAddToCart', book.id);
+    const {
+      _id,
+      author,
+      name,
+      price,
+      priceDiscount,
+      imageThumbnailUrl,
+      imageUrl
+    } = book;
+    // console.log('handleAddToCart', author, name, price, priceDiscount, imageThumbnailUrl, imageUrl, book);
+
+    addItemToCart({
+      _id,
+      author,
+      name,
+      price,
+      priceDiscount,
+      imageThumbnailUrl,
+      imageUrl
+    });
   };
 
   // console.log(book);
@@ -85,4 +108,8 @@ const SingleBookCard = ({ book }) => {
   );
 };
 
-export default SingleBookCard;
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: item => dispatch(addItemToCart(item))
+});
+
+export default connect(null, mapDispatchToProps)(SingleBookCard);

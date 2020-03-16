@@ -3,6 +3,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import styled from 'styled-components';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 
 export const Styles = styled.div``;
 
@@ -60,6 +62,15 @@ export const CustomCheckbox = ({
         </label>
       </div>
     </Styles>
+    // <div>
+    //   <FormControlLabel
+    //     key={value}
+    //     className="checkbox"
+    //     style={{ marginTop: '-10px', fontSize: '12px' }}
+    //     control={<Checkbox checked={checked} value={value} value={value} onChange={e => handleCheck(e, value)} color="primary" />}
+    //     label={value}
+    //   />
+    // </div>
   );
 };
 
