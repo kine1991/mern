@@ -17,7 +17,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         cartItems: deleteItemFromCartHelper(state.cartItems, action.payload)
       };
-
+    case cartTypes.LOAD_CART_FROM_LS:
+      return {
+        ...state,
+        cartItems: action.payload
+      };
     default:
       return state;
   }

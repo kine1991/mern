@@ -29,7 +29,7 @@ const BooksComponent = ({
   filterParams,
   getBooks,
   clearBooksAfterUnmount,
-  getBooksCount
+  getBooksCount,
 }) => {
   const history = useHistory();
   const [btnState, setBtnState] = React.useState({

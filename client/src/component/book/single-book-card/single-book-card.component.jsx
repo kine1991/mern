@@ -23,7 +23,7 @@ import {
 } from './single-book-card.styles';
 
 // eslint-disable-next-line no-shadow
-const SingleBookCard = ({ book, addItemToCart }) => {
+const SingleBookCard = ({ book, cartItems, addItemToCart }) => {
   const history = useHistory();
 
   const handleHeart = e => {
@@ -58,6 +58,11 @@ const SingleBookCard = ({ book, addItemToCart }) => {
       imageUrl
     });
   };
+
+  // React.useEffect(() => {
+  //   console.log('cartItems');
+  //   console.log(cartItems);
+  // }, [addItemToCart, cartItems]);
 
   // console.log(book);
   return (
@@ -108,8 +113,12 @@ const SingleBookCard = ({ book, addItemToCart }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  cartItems: state.cart.cartItems
+});
+
 const mapDispatchToProps = dispatch => ({
   addItemToCart: item => dispatch(addItemToCart(item))
 });
 
-export default connect(null, mapDispatchToProps)(SingleBookCard);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleBookCard);

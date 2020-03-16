@@ -25,6 +25,7 @@ const Header2Component = ({ currentUser, logoutUser }) => {
     setCartIsOpen(!cartIsOpen);
     // setCartIsOpen(!cartIsOpen);
   };
+
   return (
     <HeaderContainer>
       <LeftItems onClick={() => history.push('/')}>

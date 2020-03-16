@@ -12,20 +12,41 @@ import About from './component/about/about.component';
 import CustomLayout from './helper/component/custom-layout/custom-layout.component';
 import Spinner from './helper/component/spinner/spinner.component';
 import { setCurrentUserAsync } from './redux/user/user.action';
+import { loadCartFromLS } from './redux/cart/cart.action';
 import withAuthorization from './helper/hoc/withAuthorization';
 import BooksComponent from './component/book/books/books.component';
 // import BooksComponent2 from './component/book/books/books2.component';
 import BookComponent from './component/book/book/book.component';
 import UsersComponent from './component/user/users/users.component';
 import UserComponent from './component/user/user/user.component';
+import useDidMountEffect from './utils/useDidMountEffect';
 
 // eslint-disable-next-line no-shadow
-const App = ({ isFetching, setCurrentUser }) => {
+const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
   React.useEffect(() => {
     if (localStorage.getItem('token')) {
       setCurrentUser();
     }
+
+    // Load from LS
+    let fromLS = localStorage.getItem('cart-items-ls');
+    try {
+      if (!Array.isArray(JSON.parse(fromLS))) {
+        fromLS = JSON.stringify([]);
+      }
+    } catch (error) {
+      fromLS = JSON.stringify([]);
+    }
+    const loadCardFromLS = JSON.parse(fromLS);
+    loadCartFromLS(loadCardFromLS);
   }, []);
+
+  // Helper useEffect render after first loading
+  useDidMountEffect(() => {
+    console.log('cartItems', cartItems);
+    localStorage.setItem('cart-items-ls', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   if (isFetching) {
     return <Spinner color="gray" />;
   }
@@ -51,11 +72,13 @@ const App = ({ isFetching, setCurrentUser }) => {
 };
 
 const mapStateToProps = state => ({
-  isFetching: state.user.isFetching
+  isFetching: state.user.isFetching,
+  cartItems: state.cart.cartItems
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: () => dispatch(setCurrentUserAsync())
+  setCurrentUser: () => dispatch(setCurrentUserAsync()),
+  loadCartFromLS: items => dispatch(loadCartFromLS(items))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
