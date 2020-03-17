@@ -20,6 +20,7 @@ import BookComponent from './component/book/book/book.component';
 import UsersComponent from './component/user/users/users.component';
 import UserComponent from './component/user/user/user.component';
 import useDidMountEffect from './utils/useDidMountEffect';
+import CartComponent from './component/cart/cart/cart.component';
 
 // eslint-disable-next-line no-shadow
 const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
@@ -63,6 +64,7 @@ const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
           <Route path="/books" exact component={BooksComponent} />
           {/* <Route path="/books" exact component={BooksComponent2} /> */}
           <Route path="/books/:id" exact component={BookComponent} />
+          <Route path="/cart" exact component={CartComponent} />
           <Route path="/login" component={LoginComponent} />
           <Route path="/register" component={RegisterComponent} />
         </CustomLayout>

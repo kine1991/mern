@@ -23,7 +23,7 @@ import {
 } from './single-book-card.styles';
 
 // eslint-disable-next-line no-shadow
-const SingleBookCard = ({ book, cartItems, addItemToCart }) => {
+const SingleBookCard = ({ book, addItemToCart }) => {
   const history = useHistory();
 
   const handleHeart = e => {
@@ -44,7 +44,8 @@ const SingleBookCard = ({ book, cartItems, addItemToCart }) => {
       price,
       priceDiscount,
       imageThumbnailUrl,
-      imageUrl
+      imageUrl,
+      genre
     } = book;
     // console.log('handleAddToCart', author, name, price, priceDiscount, imageThumbnailUrl, imageUrl, book);
 
@@ -55,7 +56,8 @@ const SingleBookCard = ({ book, cartItems, addItemToCart }) => {
       price,
       priceDiscount,
       imageThumbnailUrl,
-      imageUrl
+      imageUrl,
+      genre
     });
   };
 
