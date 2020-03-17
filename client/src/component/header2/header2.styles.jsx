@@ -121,3 +121,19 @@ export const CartItem = styled.span`
   position: relative;
   /* transition: all 0.9s; */
 `;
+export const CartIcon = styled.i`
+  position: relative;
+  /* transition: all 0.9s; */
+`;
+export const CartIconCount = styled.div`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: rebeccapurple;
+  color: white;
+  font-size: 10px;
+  padding: 0.3rem;
+  border-radius: 50%;
+  font-weight: 100;
+  /* transition: all 0.9s; */
+`;

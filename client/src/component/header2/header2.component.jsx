@@ -14,10 +14,12 @@ import {
   LogoContainer,
   Logo,
   LogoTitle,
-  CartItem
+  CartItem,
+  CartIcon,
+  CartIconCount
 } from './header2.styles';
 
-const Header2Component = ({ currentUser, logoutUser }) => {
+const Header2Component = ({ currentUser, count, logoutUser }) => {
   const history = useHistory();
   const [cartIsOpen, setCartIsOpen] = React.useState(false);
 
@@ -44,7 +46,10 @@ const Header2Component = ({ currentUser, logoutUser }) => {
           <StyledLink to="/users">Users</StyledLink>
           <Item onClick={logoutUser}>Logout</Item>
           <Item onClick={handleTogleCartDropdown}>
-            <span>Cart</span>
+            <CartIcon className="fa fa-shopping-cart fa-2x">
+              <CartIconCount>{count}</CartIconCount>
+            </CartIcon>
+            {/* <span>Cart</span> */}
             <CartItem>{cartIsOpen ? <CartDropdown setCartIsOpen={setCartIsOpen}/> : null}</CartItem>
           </Item>
         </RightItems>
@@ -62,7 +67,10 @@ const Header2Component = ({ currentUser, logoutUser }) => {
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  count: state.cart.cartItems.reduce((acc, cur) => {
+    return acc + cur.quantity;
+  }, 0)
 });
 
 const mapDispatchToProps = dispatch => ({

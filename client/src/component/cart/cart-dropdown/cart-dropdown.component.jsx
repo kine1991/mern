@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-const CartDropdownContainer = styled.div`
+export const CartDropdownContainer = styled.div`
   position: absolute;
   right: 5px;
   top: 40px;
@@ -17,35 +17,29 @@ const CartDropdownContainer = styled.div`
   text-align: center;
 `;
 
-const CartDropdownItems = styled.div`
+export const CartDropdownItems = styled.div`
   height: 240px;
-  background-color: dimgrey;
   overflow: scroll;
-  /* display: flex;
-  flex-direction: column; */
   margin: 0.5rem;
 `;
 
-const CartDropdownItem = styled.div`
+export const CartDropdownItem = styled.div`
   margin-bottom: 1rem;
-  background-color: aliceblue;
   height: 70px;
-  /* flex-basis: 30%; */
   display: flex;
+  cursor: pointer;
 `;
 
-const CartDropdownItemLeft = styled.div`
+export const CartDropdownItemLeft = styled.div`
   flex: 1;
-  background-color: yellowgreen;
 `;
 
-const CartDropdownItemRight = styled.div`
+export const CartDropdownItemRight = styled.div`
   flex: 2;
-  background-color: yellow;
   margin: 0.4rem;
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
   width: 100%;
   height: 100%;
 `;
@@ -69,17 +63,17 @@ export const Button = styled.div`
   }
 `;
 
-const Name = styled.div`
+export const Name = styled.div`
   font-size: 8px;
   font-weight: 200;
 `;
 
-const Author = styled.div`
+export const Author = styled.div`
   font-size: 8px;
   font-weight: 300;
 `;
 
-const PriceByCount = styled.div`
+export const PriceByCount = styled.div`
   font-size: 10px;
   font-weight: 400;
 `;
@@ -105,7 +99,7 @@ const CartDropdown = ({ cartItems, setCartIsOpen }) => {
     <CartDropdownContainer ref={wrapperRef}>
       <CartDropdownItems>
         {cartItems.map(cartItem => (
-          <CartDropdownItem key={cartItem._id}>
+          <CartDropdownItem key={cartItem._id} onClick={() => history.push(`/books/${cartItem._id}`)}>
             <CartDropdownItemLeft>
               {/* <Image src=""{cartItems.imageThumbnailUrl}"" alt=""/> */}
               <Image src="https://sun9-53.userapi.com/c848528/v848528866/959a3/YiznGf49XW0.jpg" alt=""/>
