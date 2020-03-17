@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { addItemToCart, removeItemFromCart } from '../../../redux/cart/cart.action';
 
 export const CartContainer = styled.div`
   max-width: 760px;
@@ -170,7 +171,7 @@ export const Spacer = styled.div`
   } */
 `;
 
-const CartComponent = ({ cartItems, totalPrice }) => {
+const CartComponent = ({ cartItems, totalPrice, addItemToCart, removeItemFromCart }) => {
   console.log(cartItems);
   return (
     <CartContainer>
@@ -191,9 +192,9 @@ const CartComponent = ({ cartItems, totalPrice }) => {
               <Spacer />
               <TotalPriceAndQuantitySmallDispaly>
                 <BookQuantityContainer>
-                  <BookQuantityI className="fa fa-angle-left" />
+                  <BookQuantityI className="fa fa-angle-left" onClick={() => removeItemFromCart(cartItem)}/>
                   <BookQuantity>{cartItem.quantity}</BookQuantity>
-                  <BookQuantityI className="fa fa-angle-right" />
+                  <BookQuantityI className="fa fa-angle-right" onClick={() => addItemToCart(cartItem)} />
                 </BookQuantityContainer>
                 <BookTotalPrice>{cartItem.quantity * cartItem.priceDiscount} $</BookTotalPrice>
               </TotalPriceAndQuantitySmallDispaly>
@@ -203,9 +204,9 @@ const CartComponent = ({ cartItems, totalPrice }) => {
             <OtherBookInfo />
             <OtherBookInfo>
               <BookQuantityContainer>
-                <BookQuantityI className="fa fa-angle-left" />
+                <BookQuantityI className="fa fa-angle-left" onClick={() => removeItemFromCart(cartItem)} />
                 <BookQuantity>{cartItem.quantity}</BookQuantity>
-                <BookQuantityI className="fa fa-angle-right" />
+                <BookQuantityI className="fa fa-angle-right" onClick={() => addItemToCart(cartItem)} />
               </BookQuantityContainer>
             </OtherBookInfo>
             <OtherBookInfo>
@@ -227,4 +228,9 @@ const mapStateToProps = state => ({
   }, 0)
 });
 
-export default connect(mapStateToProps)(CartComponent);
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: id => dispatch(addItemToCart(id)),
+  removeItemFromCart: id => dispatch(removeItemFromCart(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartComponent);
