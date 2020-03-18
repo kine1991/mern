@@ -22,7 +22,9 @@ export const CurrentPage = styled.span`
 `;
 export const BooksComponentLeft = styled.div`
   flex-basis: 200px;
-  background: #f7f7f7;
+  background: #f6f6f6;
+  border-radius: 10px;
+  /* background: #f7f7f7; */
   /* background: #dcdcdc; */
   margin-right: 2rem;
 
@@ -65,14 +67,14 @@ export const Button = styled.button`
   }
 `;
 
-export const ItemsContainer = styled.div`
+export const ItemsContainerGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
 
   @media (max-width: 1200px) {
     /* grid-gap: 2rem; */
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
   }
   @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
@@ -86,4 +88,12 @@ export const ItemsContainer = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 1rem;
   }
+`;
+
+export const ItemsContainer = styled.div``;
+
+export const ViewButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 `;

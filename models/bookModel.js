@@ -10,10 +10,10 @@ const bookSchema = new Schema(
       required: [true, 'A book must have a name'],
       // trim: true,
       maxlength: [
-        100,
-        'A book name must have less or equal then 100 characters'
+        200,
+        'A book name must have less or equal then 200 characters'
       ],
-      minlength: [3, 'A book name must have more or equal then 3 characters']
+      minlength: [2, 'A book name must have more or equal then 2 characters']
     },
     genre: {
       type: String,

@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import Filter from '../filter/filter.component';
 import Spinner from '../../../helper/component/spinner/spinner.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
+import SingleBookCardSimpleContainer from '../single-book-card-simple/single-book-card-simple.component';
 import {
   getBooksAsync,
   clearBooks,
@@ -19,8 +20,10 @@ import {
   Title,
   Pagination,
   Button,
+  ItemsContainerGrid,
   ItemsContainer,
-  CurrentPage
+  CurrentPage,
+  ViewButtonContainer
 } from './books.styles';
 
 const BooksComponent = ({
@@ -36,6 +39,8 @@ const BooksComponent = ({
     disabledPrevBtn: true,
     disabledNextBtn: true
   });
+  const [gridCard, setGridCard] = React.useState(true);
+
   React.useEffect(() => {
     if (countBooks !== undefined) {
       const limit = parseInt(filterParams.limit, 10);
@@ -123,11 +128,29 @@ const BooksComponent = ({
           <Filter />
         </BooksComponentLeft>
         <BooksComponentRight>
-          <ItemsContainer>
+          <ViewButtonContainer>
+            <button onClick={() => setGridCard(true)}>Grid Card</button>
+            <button onClick={() => setGridCard(false)}>Simple Card</button>
+          </ViewButtonContainer>
+          {gridCard ? (
+            <ItemsContainerGrid>
+              {books.map(book => (
+                <SingleBookCard key={book.id} book={book} />
+              ))}
+            </ItemsContainerGrid>
+          ) : (
+            <ItemsContainer>
+              {books.map(book => (
+                <SingleBookCardSimpleContainer key={book.id} book={book} />
+              ))}
+            </ItemsContainer>
+          )}
+          {/* <ItemsContainerGrid gridCard={gridCard}>
             {books.map(book => (
-              <SingleBookCard key={book.id} book={book} />
+              <SingleBookCardSimpleContainer key={book.id} book={book} />
+              // <SingleBookCard key={book.id} book={book} />
             ))}
-          </ItemsContainer>
+          </ItemsContainerGrid> */}
           {countBooks === undefined ||
           countBooks <= filterParams.limit ? null : (
             <Pagination>
