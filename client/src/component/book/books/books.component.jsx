@@ -3,11 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import Modal from '@material-ui/core/Modal';
 
 import Filter from '../filter/filter.component';
 import Spinner from '../../../helper/component/spinner/spinner.component';
 import SingleBookCard from '../single-book-card/single-book-card.component';
-import SingleBookCardSimpleContainer from '../single-book-card-simple/single-book-card-simple.component';
+import SingleBookCardSimple from '../single-book-card-simple/single-book-card-simple.component';
 import {
   getBooksAsync,
   clearBooks,
@@ -23,7 +24,13 @@ import {
   ItemsContainerGrid,
   ItemsContainer,
   CurrentPage,
-  ViewButtonContainer
+  ViewButtonContainer,
+  ViewButtonI,
+  ViewButtonFilterI,
+  ModalContainer,
+  ModalContent,
+  ViewButtonFilterContainer,
+  ListOptionContainer
 } from './books.styles';
 
 const BooksComponent = ({
@@ -116,22 +123,51 @@ const BooksComponent = ({
     });
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   if (!books) {
     return <Spinner color="gray" />;
   }
 
   return (
     <React.Fragment>
+      <div>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={open}
+          onClose={handleClose}
+        >
+          <ModalContainer>
+            <ModalContent>
+              <Filter />
+            </ModalContent>
+          </ModalContainer>
+        </Modal>
+      </div>
       <Title>Books</Title>
+      <ListOptionContainer>
+        <ViewButtonFilterContainer>
+          <ViewButtonFilterI onClick={handleOpen} className="fa fa-filter fa-lg" />
+        </ViewButtonFilterContainer>
+        <ViewButtonContainer>
+          <ViewButtonI onClick={() => setGridCard(true)} checked={gridCard === true} className="fa fa-th fa-lg" />
+          <ViewButtonI onClick={() => setGridCard(false)} checked={gridCard === false} className="fa fa-list fa-lg" />
+        </ViewButtonContainer>
+      </ListOptionContainer>
       <BooksComponentContainer>
         <BooksComponentLeft>
           <Filter />
         </BooksComponentLeft>
         <BooksComponentRight>
-          <ViewButtonContainer>
-            <button onClick={() => setGridCard(true)}>Grid Card</button>
-            <button onClick={() => setGridCard(false)}>Simple Card</button>
-          </ViewButtonContainer>
           {gridCard ? (
             <ItemsContainerGrid>
               {books.map(book => (
@@ -141,16 +177,10 @@ const BooksComponent = ({
           ) : (
             <ItemsContainer>
               {books.map(book => (
-                <SingleBookCardSimpleContainer key={book.id} book={book} />
+                <SingleBookCardSimple key={book.id} book={book} />
               ))}
             </ItemsContainer>
           )}
-          {/* <ItemsContainerGrid gridCard={gridCard}>
-            {books.map(book => (
-              <SingleBookCardSimpleContainer key={book.id} book={book} />
-              // <SingleBookCard key={book.id} book={book} />
-            ))}
-          </ItemsContainerGrid> */}
           {countBooks === undefined ||
           countBooks <= filterParams.limit ? null : (
             <Pagination>

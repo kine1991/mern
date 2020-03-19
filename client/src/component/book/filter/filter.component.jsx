@@ -16,7 +16,8 @@ export const FilterContainer = styled.div`
   padding: 1rem;
 `;
 
-const Filter = ({ filterParams, filter, setFilterParams, getFilter }) => {
+const Filter = ({ filterParams, filter, setFilterParams, getFilter, children }) => {
+  // console.log(rest);
   const history = useHistory();
 
   const clearFilter = () => {
@@ -61,6 +62,7 @@ const Filter = ({ filterParams, filter, setFilterParams, getFilter }) => {
           index={index}
         />
       ))}
+      {children}
       <h3>Author</h3>
       {filter.author.map((value, index) => (
         <Checkbox
@@ -73,6 +75,7 @@ const Filter = ({ filterParams, filter, setFilterParams, getFilter }) => {
           index={index}
         />
       ))}
+      <br />
       <button type="button" onClick={applyFilter}>
         Apply
       </button>

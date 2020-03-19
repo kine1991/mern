@@ -44,7 +44,7 @@ const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
 
   // Helper useEffect render after first loading
   useDidMountEffect(() => {
-    console.log('cartItems', cartItems);
+    // console.log('cartItems', cartItems);
     localStorage.setItem('cart-items-ls', JSON.stringify(cartItems));
   }, [cartItems]);
 

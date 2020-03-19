@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { addItemToCart } from '../../../redux/cart/cart.action';
 
 export const SingleBookCardSimpleContainer = styled.div`
-  max-width: 760px;
+  max-width: 960px;
   padding: 1rem;
   margin-bottom: 2rem;
   box-shadow: 4px 6px 10px 4px rgba(0, 0, 0, 0.15);

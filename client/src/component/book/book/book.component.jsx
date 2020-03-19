@@ -38,7 +38,6 @@ const BookComponent = ({ book, getBook, clearBookAfterUnmount }) => {
   const match = useRouteMatch();
 
   React.useEffect(() => {
-    // fetchData(match.params.id);
     getBook(match.params.id);
     return () => {
       clearBookAfterUnmount();
@@ -49,7 +48,6 @@ const BookComponent = ({ book, getBook, clearBookAfterUnmount }) => {
   return (
     <BookPageContainer>
       <ButtonBack onClick={() => history.goBack()}>
-      {/* <ButtonBack onClick={() => history.push('/books')}> */}
         <LeftIcon>
           <i className="fa fa-arrow-left" />
         </LeftIcon>
@@ -75,8 +73,7 @@ const BookComponent = ({ book, getBook, clearBookAfterUnmount }) => {
       <hr />
       <BookContainer>
         <BookImageContainer>
-          {/* <BookImage src="https://cdn.book24.ru/v2/ITD000000001070688/COVER/cover3d1__w674.webp" /> */}
-          <BookImage src="https://avatars.mds.yandex.net/get-zen_doc/16074/pub_5e42ff7f0c1c620fd8bd0895_5e4301c12e9e63535024e747/scale_1200" />
+          <BookImage src={book.imageUrl} />
         </BookImageContainer>
         <BookContent>
           <BookCreatedAt>

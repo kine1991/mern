@@ -55,7 +55,7 @@ const Header2Component = ({ currentUser, count, logoutUser }) => {
         </RightItems>
       ) : (
         <RightItems>
-          <StyledLink to="/">Home</StyledLink>
+          <StyledLink exact to="/">Home</StyledLink>
           <StyledLink to="/books">Books</StyledLink>
           <StyledLink to="/users">Users</StyledLink>
           <StyledLink to="/login">Login</StyledLink>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import profileTypes from './profile.types';
-import { url } from '../../config/environment';
+import url from '../../config/environment';
 
 // GET ALL USERS
 const getAllUsersStart = () => ({

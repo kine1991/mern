@@ -28,8 +28,9 @@ export const BooksComponentLeft = styled.div`
   /* background: #dcdcdc; */
   margin-right: 2rem;
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     margin-right: 0rem;
+    display: none;
   }
 `;
 
@@ -40,7 +41,7 @@ export const BooksComponentRight = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 export const Pagination = styled.div`
@@ -74,14 +75,14 @@ export const ItemsContainerGrid = styled.div`
 
   @media (max-width: 1200px) {
     /* grid-gap: 2rem; */
-    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(3, 1fr);
   }
   @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
   }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
   }
   @media (max-width: 576px) {
@@ -92,8 +93,65 @@ export const ItemsContainerGrid = styled.div`
 
 export const ItemsContainer = styled.div``;
 
-export const ViewButtonContainer = styled.div`
+export const ListOptionContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
+  /* padding: 1rem; */
+`;
+
+export const ViewButtonContainer = styled.div`
+  /* display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem; */
+`;
+
+export const ViewButtonFilterContainer = styled.div`
+  
+`;
+
+export const ViewButton = styled.div`
+  margin-right: 1rem;
+`;
+
+export const ViewButtonI = styled.i`
+  transition: all 0.3s;
+  color: ${props => (props.checked ? '#282828' : '#e2e2e2')};
+  margin-left: 1rem;
+  &:hover {
+    color: #a7a7a7;
+  }
+`;
+
+export const ViewButtonFilterI = styled.i`
+  transition: all 0.3s;
+  color: #282828;
+  margin-left: 1rem;
+  &:hover {
+    color: #a7a7a7;
+  }
+
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+  /* @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 1rem;
+  } */
+`;
+
+export const ModalContainer = styled.div`
+  /* background-color: #a7a7a7; */
+  width: 80%;
+  height: 80%;
+  margin: 20% auto;
+  background: #f6f6f6;
+  border-radius: 10px;
+  padding: 2rem;
+`;
+
+export const ModalContent = styled.div`
+  height: 100%;
+  overflow: scroll;
 `;

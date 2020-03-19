@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import bookTypes from './book.types';
-import { url } from '../../config/environment';
+import url from '../../config/environment';
 
 // GET COUNT BOOKS
 const getCountBooks = countBooks => ({

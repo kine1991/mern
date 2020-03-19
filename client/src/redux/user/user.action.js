@@ -1,6 +1,6 @@
 import axios from 'axios';
 import userTypes from './user.types';
-import { url } from '../../config/environment';
+import url from '../../config/environment';
 import setAuthToken from '../../utils/setAuthToken';
 
 // SET CURRENT USER
