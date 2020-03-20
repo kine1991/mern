@@ -14,6 +14,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const carRouter = require('./routes/carRoutes');
 const userRouter = require('./routes/userRoutes');
+const authorRouter = require('./routes/authorRoutes');
 const articleRouter = require('./routes/articleRoutes');
 const bookRouter = require('./routes/bookRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
@@ -70,6 +71,7 @@ app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/authors', authorRouter);
 
 if (process.env.NODE_ENV === 'production') {
   console.log('***prod***');
