@@ -7,8 +7,8 @@ const authorSchema = new Schema({
     type: String,
     required: [true, 'Author can not be empty!']
   },
-  born: String,
-  died: String,
+  born: Date,
+  died: Date,
   imageUrl: String,
   about: String
 });

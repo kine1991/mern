@@ -43,6 +43,7 @@ const Header2Component = ({ currentUser, count, logoutUser }) => {
             Home
           </StyledLink>
           <StyledLink to="/books">Books</StyledLink>
+          <StyledLink to="/authors">Authors</StyledLink>
           <StyledLink to="/users">Users</StyledLink>
           <Item onClick={logoutUser}>Logout</Item>
           <Item onClick={handleTogleCartDropdown}>
@@ -56,10 +57,18 @@ const Header2Component = ({ currentUser, count, logoutUser }) => {
       ) : (
         <RightItems>
           <StyledLink exact to="/">Home</StyledLink>
+          <StyledLink to="/authors">Authors</StyledLink>
           <StyledLink to="/books">Books</StyledLink>
           <StyledLink to="/users">Users</StyledLink>
           <StyledLink to="/login">Login</StyledLink>
           <StyledLink to="/register">Register</StyledLink>
+          <Item onClick={handleTogleCartDropdown}>
+            <CartIcon className="fa fa-shopping-cart fa-2x">
+              <CartIconCount>{count}</CartIconCount>
+            </CartIcon>
+            {/* <span>Cart</span> */}
+            <CartItem>{cartIsOpen ? <CartDropdown setCartIsOpen={setCartIsOpen}/> : null}</CartItem>
+          </Item>
         </RightItems>
       )}
     </HeaderContainer>

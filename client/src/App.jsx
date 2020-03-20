@@ -21,6 +21,7 @@ import UsersComponent from './component/user/users/users.component';
 import UserComponent from './component/user/user/user.component';
 import useDidMountEffect from './utils/useDidMountEffect';
 import CartComponent from './component/cart/cart/cart.component';
+import authorsComponent from './component/author/authors/authors.component';
 
 // eslint-disable-next-line no-shadow
 const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
@@ -59,6 +60,7 @@ const App = ({ isFetching, setCurrentUser, cartItems, loadCartFromLS }) => {
         <CustomLayout>
           <Route path="/" exact component={() => <h1>Home</h1>} />
           <Route path="/about" exact component={withAuthorization(About)} />
+          <Route path="/authors" exact component={authorsComponent} />
           <Route path="/users" exact component={UsersComponent} />
           <Route path="/users/:id" exact component={UserComponent} />
           <Route path="/books" exact component={BooksComponent} />
