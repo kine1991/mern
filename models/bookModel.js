@@ -35,6 +35,10 @@ const bookSchema = new Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     },
+    authorRef: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Author'
+    },
     price: {
       type: Number
     },

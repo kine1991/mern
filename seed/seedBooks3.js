@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */ //отключить для всего файла консоль
 const dotenv = require('dotenv');
-dotenv.config({ path: '../config.env' });
-
+// dotenv.config({ path: '../config.env' });
+dotenv.config({ path: `${__dirname}/../config.env` });
+const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const faker = require('faker');
 const Book = require('../models/bookModel');
@@ -90,9 +92,13 @@ const impData = () => {
       releaseBook
     };
 
+    const booksFinal = fs.readFileSync(path.resolve(__dirname, './booksFinal.json'), 'utf-8');
+
+    // console --import.log('book')
+
     const importData = async () => {
       try {
-        const book2 = await Book.create(book);
+        const book2 = await Book.create(JSON.parse(booksFinal));
         console.log(book2);
       } catch (error) {
         console.log(error);
@@ -102,6 +108,15 @@ const impData = () => {
   }
 };
 
+const importData = async () => {
+  try {
+    const booksFinal = fs.readFileSync(path.resolve(__dirname, './booksFinal.json'), 'utf-8');
+    const book = await Book.create(JSON.parse(booksFinal));
+    // console.log(book);
+  } catch (error) {
+    console.log(error);
+  }
+};
 // DELETE ALL DATA FROM DB
 const deleteData = async () => {
   try {
@@ -113,7 +128,8 @@ const deleteData = async () => {
 };
 
 if (process.argv[2] === '--import') {
-  impData();
+  importData();
+  // impData();
 } else if (process.argv[2] === '--delete') {
   deleteData();
 }
