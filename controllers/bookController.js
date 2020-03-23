@@ -11,6 +11,7 @@ exports.topFiveCheapBook = (req, res, next) => {
 };
 
 exports.getAllBooks = catchAsync(async (req, res) => {
+  // console.log(req.query);
   const features = new APIFeatures(Book.find(), req.query)
     .filter()
     .sort()

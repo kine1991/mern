@@ -26,3 +26,37 @@ export const getAllAuthorsAsync = () => async dispatch => {
     dispatch(getAllAuthorsFailure(error));
   }
 };
+
+// GET AUTHOR
+const getAuthorStart = () => ({
+  type: authorTypes.GET_AUTHOR_START
+});
+
+const getAuthorSuccess = author => ({
+  type: authorTypes.GET_AUTHOR_SUCCESS,
+  payload: author
+});
+
+const getAuthorFailure = error => ({
+  type: authorTypes.GET_AUTHOR_FAILURE,
+  payload: error
+});
+
+export const getAuthorAsync = authorId => async dispatch => {
+  dispatch(getAuthorStart());
+
+  try {
+    const author = await axios.get(`${url}/api/v1/authors/${authorId}`);
+    dispatch(getAuthorSuccess(author.data.data.author));
+  } catch (error) {
+    dispatch(getAuthorFailure(error));
+  }
+};
+
+export const clearAuthor = () => ({
+  type: authorTypes.CLEAR_AUTHOR
+});
+
+export const clearAuthors = () => ({
+  type: authorTypes.CLEAR_AUTHORS
+});

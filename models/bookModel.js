@@ -108,11 +108,6 @@ bookSchema.pre('save', function(next) {
   next();
 });
 
-// bookSchema.post('save', function(doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
 // QUERY MIDDLEWARE
 bookSchema.pre(/^find/, function(next) {
   this.find({ private: { $ne: true } });

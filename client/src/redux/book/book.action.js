@@ -64,10 +64,6 @@ export const getBooksAsync = filter => async dispatch => {
   dispatch(getBooksStart());
   try {
     if (filter) {
-      // console.log('filter222', filter);
-      // console.log('filter222', filter);
-      // dispatch(getCountBooks(books.data.results));
-      // dispatch(getCountBooks(books.data.results));
       const books = await axios.get(`${url}/api/v1/books/${filter}`);
       dispatch(getBooksSuccess(books.data.data.books));
     } else {
